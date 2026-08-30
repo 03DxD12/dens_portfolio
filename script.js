@@ -195,45 +195,75 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", updateNavbarState, { passive: true });
   }
 
-  // --- Live Preview Modal Logic ---
+  // --- Live Hover Preview Logic ---
   const previewModal = document.getElementById("preview-modal");
   const previewIframe = document.getElementById("preview-iframe");
   const previewTitle = document.getElementById("preview-modal-title");
   const previewOpenBtn = document.getElementById("preview-open-btn");
   const previewLoading = document.getElementById("preview-loading");
+  
+  let hoverTimeout;
+  let activePreviewUrl = "";
 
-  window.openPreview = (url, title) => {
+  const showHoverPreview = (url, title) => {
     if (!previewModal || !previewIframe || !previewTitle || !previewOpenBtn) return;
     
+    clearTimeout(hoverTimeout);
+    
+    if (activePreviewUrl === url && previewModal.classList.contains("active")) {
+      return;
+    }
+    
+    activePreviewUrl = url;
     previewTitle.textContent = title;
     previewOpenBtn.href = url;
     previewIframe.src = url;
     
-    // Show modal & loading state
     previewModal.classList.add("active");
     previewLoading.style.display = "flex";
-    body.style.overflow = "hidden"; // lock background scroll
-
+    
     previewIframe.onload = () => {
       previewLoading.style.display = "none";
     };
   };
 
-  window.closePreview = () => {
-    if (!previewModal || !previewIframe) return;
-    
-    previewModal.classList.remove("active");
-    previewIframe.src = ""; // reset source
-    body.style.overflow = ""; // restore background scroll
+  const hideHoverPreview = () => {
+    clearTimeout(hoverTimeout);
+    hoverTimeout = setTimeout(() => {
+      if (!previewModal || !previewIframe) return;
+      previewModal.classList.remove("active");
+      previewIframe.src = "";
+      activePreviewUrl = "";
+    }, 450); // Delay in ms to let the user move their mouse over the preview panel
   };
 
-  // Close on clicking outside modal inner container
-  if (previewModal) {
-    previewModal.addEventListener("click", (e) => {
-      if (e.target === previewModal) {
-        closePreview();
-      }
+  window.closePreview = () => {
+    if (!previewModal || !previewIframe) return;
+    previewModal.classList.remove("active");
+    previewIframe.src = "";
+    activePreviewUrl = "";
+  };
+
+  // Find all links that support hover preview
+  const previewLinks = document.querySelectorAll("[data-hover-preview]");
+  
+  previewLinks.forEach(link => {
+    link.addEventListener("mouseenter", () => {
+      const url = link.getAttribute("data-hover-preview");
+      const card = link.closest(".project-card");
+      const title = card ? card.querySelector("h3").textContent : "Project Preview";
+      showHoverPreview(url, title);
     });
+
+    link.addEventListener("mouseleave", hideHoverPreview);
+  });
+
+  // Keep the preview open if the user hovers inside the preview window itself
+  if (previewModal) {
+    previewModal.addEventListener("mouseenter", () => {
+      clearTimeout(hoverTimeout);
+    });
+    previewModal.addEventListener("mouseleave", hideHoverPreview);
   }
 
   // Close on Escape key
