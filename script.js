@@ -194,4 +194,53 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNavbarState();
     window.addEventListener("scroll", updateNavbarState, { passive: true });
   }
+
+  // --- Live Preview Modal Logic ---
+  const previewModal = document.getElementById("preview-modal");
+  const previewIframe = document.getElementById("preview-iframe");
+  const previewTitle = document.getElementById("preview-modal-title");
+  const previewOpenBtn = document.getElementById("preview-open-btn");
+  const previewLoading = document.getElementById("preview-loading");
+
+  window.openPreview = (url, title) => {
+    if (!previewModal || !previewIframe || !previewTitle || !previewOpenBtn) return;
+    
+    previewTitle.textContent = title;
+    previewOpenBtn.href = url;
+    previewIframe.src = url;
+    
+    // Show modal & loading state
+    previewModal.classList.add("active");
+    previewLoading.style.display = "flex";
+    body.style.overflow = "hidden"; // lock background scroll
+
+    previewIframe.onload = () => {
+      previewLoading.style.display = "none";
+    };
+  };
+
+  window.closePreview = () => {
+    if (!previewModal || !previewIframe) return;
+    
+    previewModal.classList.remove("active");
+    previewIframe.src = ""; // reset source
+    body.style.overflow = ""; // restore background scroll
+  };
+
+  // Close on clicking outside modal inner container
+  if (previewModal) {
+    previewModal.addEventListener("click", (e) => {
+      if (e.target === previewModal) {
+        closePreview();
+      }
+    });
+  }
+
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && previewModal && previewModal.classList.contains("active")) {
+      closePreview();
+    }
+  });
 });
+
