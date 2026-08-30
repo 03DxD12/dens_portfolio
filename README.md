@@ -79,27 +79,6 @@ The portfolio features verified credentials earned from global technology leader
 *   **🔎 Live Iframe Hover Preview:** Hovering over any **Live Demo** button instantly opens a responsive picture-in-picture widget in the bottom-right corner showing the live website before clicking.
 *   **🏷️ Categorized Badge Filters:** Interactive category filters for quickly sorting verified credentials.
 
----
-
-## 🔧 Local Development & Deployment
-
-To run this portfolio locally:
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/03DxD12/dens_portfolio.git
-    ```
-2.  **Navigate into the directory:**
-    ```bash
-    cd dens_portfolio
-    ```
-3.  **Open in your browser:**
-    Simply open the `index.html` file in any modern browser, or use a local dev server extension (like Live Server in VS Code).
-
-### **Vercel Routing (`vercel.json`)**
-The platform is pre-configured for Vercel deployment with clean SPA routing definitions to ensure index fallbacks:
-```json
-{
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
