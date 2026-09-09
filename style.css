@@ -22,6 +22,7 @@
   --radius-lg: 32px;
   --shadow-card: 0 22px 60px -26px rgba(2, 11, 23, 0.9);
   --shadow-glow: 0 0 0 1px rgba(100, 255, 218, 0.08), 0 0 36px rgba(100, 255, 218, 0.12);
+  --hover-lift: translateY(-7px);
 }
 
 *,
@@ -70,7 +71,14 @@ body.menu-open {
 a {
   color: inherit;
   text-decoration: none;
-  transition: color var(--transition), transform var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition);
+  transition:
+    color var(--transition),
+    transform var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    opacity var(--transition),
+    filter var(--transition);
 }
 
 ul {
@@ -114,17 +122,18 @@ h3 {
 
 h1 {
   font-size: clamp(3rem, 7vw, 5.6rem);
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 h2 {
   font-size: clamp(2rem, 4vw, 3.1rem);
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
 }
 
 h3 {
   font-size: clamp(1.15rem, 2.4vw, 1.5rem);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .accent {
@@ -147,6 +156,7 @@ h3 {
   display: inline-block;
   margin-bottom: 1rem;
   position: relative;
+  max-width: 100%;
 }
 
 .section-title::after {
@@ -191,15 +201,19 @@ h3 {
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 60%);
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.32) 42%, transparent 58%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 60%);
   opacity: 0;
-  transition: opacity var(--transition);
-  z-index: -1;
+  transform: translateX(-120%);
+  transition: opacity var(--transition), transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
 }
 
 .btn:hover::before,
 .btn:focus-visible::before {
   opacity: 1;
+  transform: translateX(120%);
 }
 
 .btn-primary {
@@ -272,13 +286,21 @@ h3 {
   font-family: var(--font-heading);
   font-size: 1.55rem;
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.logo:hover,
+.logo:focus-visible {
+  color: var(--white);
+  filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.35));
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  min-width: 0;
 }
 
 .nav-links li a {
@@ -451,6 +473,7 @@ h3 {
   margin-bottom: 1.7rem;
   color: var(--text-secondary);
   font-size: clamp(1rem, 2vw, 1.1rem);
+  overflow-wrap: anywhere;
 }
 
 .hero-badges {
@@ -461,6 +484,7 @@ h3 {
 }
 
 .hero-badge {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 2.6rem;
@@ -473,6 +497,14 @@ h3 {
   font-weight: 700;
   letter-spacing: 0.01em;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: transform var(--transition), border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+}
+
+.hero-badge:hover {
+  transform: translateY(-3px);
+  border-color: rgba(100, 255, 218, 0.38);
+  background: rgba(100, 255, 218, 0.1);
+  box-shadow: var(--shadow-glow);
 }
 
 .hero-btns {
@@ -590,18 +622,34 @@ h3 {
 }
 
 .skill-badge-card {
+  position: relative;
   min-height: 12rem;
   padding: 1.25rem;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(100, 255, 218, 0.12);
   background: linear-gradient(180deg, rgba(100, 255, 218, 0.06), rgba(100, 255, 218, 0.02));
+  overflow: hidden;
   transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
 }
 
+.skill-badge-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(100, 255, 218, 0.14), transparent 48%);
+  opacity: 0;
+  transition: opacity var(--transition);
+  pointer-events: none;
+}
+
 .skill-badge-card:hover {
-  transform: translateY(-4px);
+  transform: var(--hover-lift);
   border-color: rgba(100, 255, 218, 0.26);
   box-shadow: var(--shadow-glow);
+}
+
+.skill-badge-card:hover::before {
+  opacity: 1;
 }
 
 .badge-kicker {
@@ -665,6 +713,7 @@ h3 {
   border: 1px solid rgba(100, 255, 218, 0.2);
   background: var(--accent-dim);
   color: var(--accent);
+  transition: transform var(--transition), border-color var(--transition), background-color var(--transition), color var(--transition), box-shadow var(--transition);
 }
 
 .skill-tags.secondary span {
@@ -674,7 +723,9 @@ h3 {
 }
 
 .skill-tags span:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: rgba(100, 255, 218, 0.42);
+  background: rgba(100, 255, 218, 0.16);
   box-shadow: var(--shadow-glow);
 }
 
@@ -712,11 +763,19 @@ h3 {
 }
 
 .timeline-content {
+  position: relative;
   padding: 1.45rem 1.5rem;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   background: rgba(6, 18, 34, 0.7);
   box-shadow: var(--shadow-card);
+  transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
+}
+
+.timeline-content:hover {
+  transform: translateX(6px);
+  border-color: rgba(100, 255, 218, 0.22);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
 }
 
 .timeline-content h3 {
@@ -770,7 +829,8 @@ h3 {
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(10, 24, 48, 0.84), rgba(7, 17, 31, 0.9));
   overflow: hidden;
-  transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
+  transform-style: preserve-3d;
+  transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 
 .project-card::before {
@@ -784,14 +844,35 @@ h3 {
   transition: opacity var(--transition);
 }
 
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      420px circle at var(--pointer-x, 50%) var(--pointer-y, 0%),
+      rgba(100, 255, 218, 0.14),
+      transparent 42%
+    );
+  opacity: 0;
+  transition: opacity var(--transition);
+  pointer-events: none;
+}
+
 .project-card:hover {
-  transform: translateY(-6px);
+  transform: var(--hover-lift) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));
   border-color: rgba(100, 255, 218, 0.22);
   box-shadow: var(--shadow-card), var(--shadow-glow);
 }
 
-.project-card:hover::before {
+.project-card:hover::before,
+.project-card:hover::after {
   opacity: 1;
+}
+
+.project-content {
+  position: relative;
+  z-index: 1;
 }
 
 .project-header {
@@ -840,6 +921,17 @@ h3 {
   color: var(--accent);
   border: 1px solid rgba(100, 255, 218, 0.14);
   background: rgba(100, 255, 218, 0.08);
+  transition: transform var(--transition), border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+}
+
+.project-card:hover .tech-stack span {
+  border-color: rgba(100, 255, 218, 0.25);
+}
+
+.tech-stack span:hover {
+  transform: translateY(-2px);
+  background: rgba(100, 255, 218, 0.14);
+  box-shadow: 0 10px 24px -18px rgba(100, 255, 218, 0.65);
 }
 
 /* Project type badge */
@@ -893,6 +985,7 @@ h3 {
 }
 
 .project-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -904,6 +997,23 @@ h3 {
   letter-spacing: 0.04em;
   transition: transform var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
   cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.project-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  transform: translateX(-120%);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+
+.project-btn:hover::before,
+.project-btn:focus-visible::before {
+  transform: translateX(120%);
 }
 
 .project-btn-github {
@@ -958,13 +1068,16 @@ h3 {
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
+  transition: transform var(--transition), color var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
 
 .filter-btn:hover,
 .filter-btn:focus-visible {
+  transform: translateY(-2px);
   color: var(--white);
   border-color: rgba(100, 255, 218, 0.34);
   background: rgba(100, 255, 218, 0.1);
+  box-shadow: 0 12px 24px -20px rgba(100, 255, 218, 0.8);
 }
 
 .filter-btn.active {
@@ -1004,7 +1117,7 @@ h3 {
 }
 
 .cert-card:hover {
-  transform: translateY(-6px);
+  transform: var(--hover-lift);
   border-color: rgba(100, 255, 218, 0.22);
   box-shadow: var(--shadow-card), var(--shadow-glow);
 }
@@ -1024,6 +1137,26 @@ h3 {
   border-radius: 26px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(100, 255, 218, 0.04));
   border: 1px solid rgba(100, 255, 218, 0.12);
+  transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
+}
+
+.cert-badge-wrapper.is-missing::before {
+  content: attr(data-badge-label);
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0.45rem;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top, rgba(100, 255, 218, 0.14), transparent 58%),
+    rgba(5, 18, 34, 0.82);
+  color: var(--accent);
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .cert-badge {
@@ -1114,6 +1247,12 @@ h3 {
   transform: scale(1.06);
 }
 
+.cert-card:hover .cert-badge-wrapper {
+  transform: translateY(-3px);
+  border-color: rgba(100, 255, 218, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 16px 28px -24px rgba(100, 255, 218, 0.8);
+}
+
 .cert-card h3 {
   margin-bottom: 0.4rem;
   font-size: 0.98rem;
@@ -1125,6 +1264,7 @@ h3 {
   color: var(--accent);
   font-size: 0.8rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .cert-card .date {
@@ -1160,6 +1300,11 @@ h3 {
   transform: scaleX(1);
 }
 
+.btn-link:hover,
+.btn-link:focus-visible {
+  filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.3));
+}
+
 .cert-card.hidden {
   display: none !important;
 }
@@ -1180,6 +1325,7 @@ h3 {
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(10, 24, 48, 0.8), rgba(6, 18, 34, 0.9));
   position: relative;
+  transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
 }
 
 .edu-card::before {
@@ -1191,6 +1337,12 @@ h3 {
   width: 3px;
   border-radius: 999px;
   background: linear-gradient(180deg, var(--accent), transparent);
+}
+
+.edu-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(100, 255, 218, 0.24);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
 }
 
 .institution {
@@ -1223,6 +1375,7 @@ h3 {
 }
 
 .contact-box {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1231,6 +1384,19 @@ h3 {
   border: 1px solid rgba(100, 255, 218, 0.14);
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(10, 24, 48, 0.78), rgba(6, 18, 34, 0.92));
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition);
+}
+
+.contact-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(100, 255, 218, 0.1), transparent 42%);
+  opacity: 0;
+  transition: opacity var(--transition);
+  pointer-events: none;
 }
 
 .contact-box span {
@@ -1254,6 +1420,11 @@ h3 {
   transform: translateY(-4px);
   border-color: rgba(100, 255, 218, 0.26);
   box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+
+.contact-box:hover::before,
+.contact-box:focus-visible::before {
+  opacity: 1;
 }
 
 footer {
@@ -1293,7 +1464,7 @@ footer {
 @media (max-width: 1100px) {
   .skill-badge-grid,
   .cert-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(16rem, 1fr));
   }
 
   .projects-grid {
@@ -1322,6 +1493,7 @@ footer {
     transform: translateX(100%);
     transition: transform var(--transition-slow);
     box-shadow: -18px 0 48px rgba(2, 11, 23, 0.55);
+    overflow-y: auto;
   }
 
   .nav-links.active {
@@ -1354,6 +1526,10 @@ footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .cert-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .glow-circle {
     right: -3rem;
     top: 14%;
@@ -1375,6 +1551,18 @@ footer {
     min-height: auto;
   }
 
+  h1 {
+    font-size: clamp(2.45rem, 13vw, 3.8rem);
+  }
+
+  h2 {
+    font-size: clamp(1.65rem, 9vw, 2.35rem);
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
   .hero-content {
     max-width: 100%;
     text-align: center;
@@ -1389,6 +1577,10 @@ footer {
   .hero-btns,
   .cert-filters {
     justify-content: center;
+  }
+
+  .cert-filters {
+    gap: 0.55rem;
   }
 
   .hero-btns .btn {
@@ -1409,6 +1601,30 @@ footer {
   .edu-card,
   .contact-box {
     border-radius: 18px;
+    padding-inline: 1rem;
+  }
+
+  .badge-panel-header {
+    align-items: start;
+  }
+
+  .project-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .project-type-badge {
+    white-space: normal;
+  }
+
+  .project-actions {
+    width: 100%;
+  }
+
+  .project-btn {
+    flex: 1 1 9rem;
+    justify-content: center;
   }
 
   .timeline {
@@ -1446,6 +1662,16 @@ footer {
     padding: 6.5rem 0 3.5rem;
   }
 
+  .section-title {
+    display: block;
+    text-align: center;
+  }
+
+  .section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .subtitle {
     letter-spacing: 0.16em;
   }
@@ -1459,6 +1685,51 @@ footer {
 
   .contact-details-list li {
     min-height: auto;
+  }
+
+  .cert-badge-wrapper {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 20px;
+  }
+
+  .cert-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .contact-box {
+    min-height: 8rem;
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    width: min(100% - 1rem, 1180px);
+  }
+
+  .btn,
+  .project-btn,
+  .filter-btn {
+    width: 100%;
+  }
+
+  .hero-badge,
+  .skill-tags span,
+  .tech-stack span {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .timeline {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .timeline-dot {
+    display: none;
   }
 }
 
@@ -1593,4 +1864,3 @@ footer {
     display: none !important;
   }
 }
-

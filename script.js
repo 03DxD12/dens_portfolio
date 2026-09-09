@@ -106,6 +106,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  document.querySelectorAll(".cert-badge").forEach((badge) => {
+    badge.addEventListener("error", () => {
+      const wrapper = badge.closest(".cert-badge-wrapper");
+      if (!wrapper) return;
+
+      wrapper.dataset.badgeLabel = badge.alt || "Credential";
+      wrapper.classList.add("is-missing");
+      badge.hidden = true;
+    });
+  });
+
+  const canUseMotionEffects =
+    window.matchMedia("(hover: hover)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (canUseMotionEffects) {
+    document.querySelectorAll(".project-card").forEach((card) => {
+      card.addEventListener("pointermove", (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rotateY = ((x / rect.width) - 0.5) * 5;
+        const rotateX = ((0.5 - y / rect.height) * 5);
+
+        card.style.setProperty("--pointer-x", `${x}px`);
+        card.style.setProperty("--pointer-y", `${y}px`);
+        card.style.setProperty("--tilt-x", `${rotateY}deg`);
+        card.style.setProperty("--tilt-y", `${rotateX}deg`);
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.style.removeProperty("--tilt-x");
+        card.style.removeProperty("--tilt-y");
+        card.style.removeProperty("--pointer-x");
+        card.style.removeProperty("--pointer-y");
+      });
+    });
+  }
+
   const certGrid = document.getElementById("certifications-grid");
   const toggleBtn = document.getElementById("cert-toggle-btn");
   const filterBtns = document.querySelectorAll(".filter-btn");
@@ -273,4 +312,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
