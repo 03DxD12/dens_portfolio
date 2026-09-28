@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gun Detection</title>
+    <style>
+      :root {
+        --bg: #f2efe8;
+        --panel: #fffaf1;
+        --ink: #1d1b18;
+        --accent: #39c9d9;
+        --accent-dark: #2482a1;
+        --line: #d8cfc0;
+        --muted: #6c6256;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(217, 93, 57, 0.22), transparent 28%),
+          linear-gradient(135deg, #f5f1e8, #e6dccd);
+      }
+
+      .page {
+        width: min(960px, calc(100% - 32px));
+        margin: 40px auto;
+        padding: 32px;
+        background: rgba(255, 250, 241, 0.95);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: 0 18px 48px rgba(68, 48, 32, 0.12);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+        padding: 18px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+      }
+
+      input[type="file"] {
+        flex: 1 1 240px;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 12px 20px;
+        font: inherit;
+        color: #fff;
+        background: var(--accent);
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      button:hover {
+        background: var(--accent-dark);
+        transform: translateY(-1px);
+      }
+
+      .result {
+        display: none;
+        margin-top: 22px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+      }
+
+      .meta {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(255, 250, 241, 0.85);
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .chip {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        font-size: 0.95rem;
+      }
+
+      .result h2 {
+        margin: 0 0 10px;
+      }
+
+      .stage {
+        position: relative;
+        min-height: 320px;
+        margin-top: 14px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: #fff;
+        overflow: hidden;
+      }
+
+      .stage img {
+        display: block;
+        width: 100%;
+        min-height: 320px;
+        object-fit: cover;
+      }
+
+      .box {
+        position: absolute;
+        left: 22%;
+        top: 28%;
+        width: 48%;
+        height: 36%;
+        border: 4px solid #ff4444;
+        border-radius: 8px;
+        box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.08);
+      }
+
+      .box::before {
+        content: "weapon 0.87";
+        position: absolute;
+        left: -4px;
+        top: -34px;
+        padding: 6px 10px;
+        border-radius: 8px 8px 0 0;
+        background: #ff4444;
+        color: #fff;
+        font: 700 0.92rem Arial, sans-serif;
+      }
+
+      .detections {
+        margin-top: 14px;
+        padding-left: 0;
+        color: var(--ink);
+        list-style: none;
+      }
+
+      .detections li {
+        background: #ff4444;
+        color: white;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          margin: 16px auto;
+          padding: 22px;
+        }
+
+        form {
+          padding: 14px;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <h1>Gun Detection</h1>
+      <p>Upload an image and run the detector interface.</p>
+      <p style="margin-top: 10px;">Active backend: <strong>Local YOLO</strong></p>
+      <section class="meta">
+        <p>Supported labels: gun, pistol, weapon</p>
+        <p style="margin-top: 8px;">Local YOLO tuning: confidence 0.25, image size 640</p>
+        <div class="chips">
+          <span class="chip">gun</span>
+          <span class="chip">pistol</span>
+          <span class="chip">weapon</span>
+        </div>
+      </section>
+
+      <form id="detect-form">
+        <input id="image-input" type="file" accept=".jpg,.jpeg,.png,.bmp,.webp,image/*" />
+        <button type="button" id="sample-btn">Load Sample</button>
+        <button type="submit">Detect Guns</button>
+      </form>
+
+      <section class="result" id="result">
+        <h2>Detection Result</h2>
+        <p>Processed file: <span id="filename">sample-frame.png</span></p>
+        <div class="stage">
+          <img id="preview-image" alt="Detected objects" />
+          <div class="box" aria-hidden="true"></div>
+        </div>
+        <h3>WEAPONS DETECTED:</h3>
+        <ul class="detections">
+          <li><strong>weapon</strong> (0.87) <span style="float:right;">BBox: [22%, 28%, 70%, 64%]</span></li>
+        </ul>
+      </section>
+    </main>
+
+    <script>
+      const input = document.getElementById("image-input");
+      const image = document.getElementById("preview-image");
+      const result = document.getElementById("result");
+      const filename = document.getElementById("filename");
+      const sampleSvg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560">
+          <rect width="900" height="560" fill="#f1eadf"/>
+          <rect x="150" y="320" width="600" height="42" rx="20" fill="#d8cfc0"/>
+          <rect x="295" y="214" width="300" height="64" rx="18" fill="#8d8173"/>
+          <rect x="535" y="235" width="120" height="32" rx="16" fill="#8d8173"/>
+          <rect x="378" y="268" width="62" height="108" rx="16" fill="#766a5e"/>
+          <circle cx="260" cy="334" r="28" fill="#44382d"/>
+          <circle cx="654" cy="334" r="28" fill="#44382d"/>
+          <text x="38" y="70" fill="#2482a1" font-family="Arial" font-size="30" font-weight="700">Sample frame</text>
+        </svg>`;
+
+      const showResult = (src, name) => {
+        image.src = src;
+        filename.textContent = name;
+        result.style.display = "block";
+      };
+
+      document.getElementById("sample-btn").addEventListener("click", () => {
+        showResult(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(sampleSvg)}`, "sample-frame.png");
+      });
+
+      input.addEventListener("change", () => {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        showResult(URL.createObjectURL(file), file.name);
+      });
+
+      document.getElementById("detect-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!image.src) {
+          document.getElementById("sample-btn").click();
+        } else {
+          result.style.display = "block";
+        }
+      });
+
+      document.getElementById("sample-btn").click();
+    </script>
+  </body>
+</html>

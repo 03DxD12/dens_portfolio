@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks & Requirements - Deadline Buddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">🎓</div>
+                <div>
+                    <div class="brand-title">Deadline Buddy</div>
+                    <div class="brand-sub">Olinsterg College Inc.</div>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="nav-item active">
+                    <span class="nav-icon">📝</span>
+                    <span>Tasks & Requirements</span>
+                </a>
+                <a href="subjects.html" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>Subjects</span>
+                </a>
+                <a href="calendar.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span>Calendar</span>
+                </a>
+                <a href="reminders.html" class="nav-item">
+                    <span class="nav-icon">⏰</span>
+                    <span>Reminders & Alerts</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Student Profile</span>
+                </a>
+            </nav>
+
+            <div class="user-pill">
+                <div class="avatar" id="sidebarAvatar">G12</div>
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight: 600; font-size: 0.88rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" id="sidebarName">Student</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);" id="sidebarTrack">Grade 12 - ASSH</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button class="mobile-toggle" id="menuToggle">☰</button>
+                <div style="flex: 1;">
+                    <h1 style="font-size: 1.3rem; margin: 0;">Academic Requirements 📝</h1>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Track, search, and manage your school deadlines in real-time</p>
+                </div>
+
+                <a href="task-form.html" class="btn btn-primary">
+                    <span>➕</span> Add Requirement
+                </a>
+
+                <div class="notification-wrapper">
+                    <button class="icon-btn" id="notifBtn" title="Notifications">
+                        🔔
+                        <span class="badge-dot hidden" id="notifBadge"></span>
+                    </button>
+                    <div class="notif-dropdown hidden" id="notifDropdown">
+                        <div class="notif-header">
+                            <span style="font-weight: 600;">Deadline Alerts</span>
+                            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 2px 8px;" id="clearNotifsBtn">Clear All</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No active alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Container -->
+            <div class="container">
+                <!-- Status Filter Tabs -->
+                <div style="display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary active-tab" id="tabAll" onclick="filterByTab('All')">All Tasks (<span id="countAll">0</span>)</button>
+                    <button class="btn btn-secondary" id="tabPending" onclick="filterByTab('Pending')">Pending (<span id="countPending">0</span>)</button>
+                    <button class="btn btn-secondary" id="tabInProgress" onclick="filterByTab('In Progress')">In Progress (<span id="countInProgress">0</span>)</button>
+                    <button class="btn btn-secondary" id="tabCompleted" onclick="filterByTab('Completed')">Completed (<span id="countCompleted">0</span>)</button>
+                    <button class="btn btn-secondary" id="tabUrgent" onclick="filterByTab('Urgent')">🔥 Urgent / Overdue (<span id="countUrgent">0</span>)</button>
+                </div>
+
+                <!-- Filters & Search Toolbar -->
+                <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 2; min-width: 220px;">
+                        <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search task title, subject, or description...">
+                    </div>
+                    <div style="flex: 1; min-width: 160px;">
+                        <select id="subjectFilter" class="form-control">
+                            <option value="All">All Subjects</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 160px;">
+                        <select id="typeFilter" class="form-control">
+                            <option value="All">All Categories</option>
+                            <option value="Assignment">Assignment</option>
+                            <option value="Project">Project</option>
+                            <option value="Quiz">Quiz</option>
+                            <option value="Exam">Exam</option>
+                            <option value="Activity">Activity</option>
+                            <option value="Performance Task">Performance Task</option>
+                            <option value="Research">Research Requirement</option>
+                            <option value="Presentation">Presentation</option>
+                            <option value="Written Work">Written Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tasks Grid -->
+                <div class="grid grid-2" id="tasksGrid">
+                    <!-- Tasks will be dynamically rendered -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Mobile Nav -->
+    <div class="mobile-nav">
+        <a href="dashboard.html" class="mobile-nav-item">
+            <span class="icon">📊</span>
+            <span>Home</span>
+        </a>
+        <a href="tasks.html" class="mobile-nav-item active">
+            <span class="icon">📝</span>
+            <span>Tasks</span>
+        </a>
+        <a href="subjects.html" class="mobile-nav-item">
+            <span class="icon">📚</span>
+            <span>Subjects</span>
+        </a>
+        <a href="calendar.html" class="mobile-nav-item">
+            <span class="icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <a href="reminders.html" class="mobile-nav-item">
+            <span class="icon">⏰</span>
+            <span>Alerts</span>
+        </a>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/deadline.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let currentTab = 'All';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const subjectFilter = document.getElementById('subjectFilter');
+            const typeFilter = document.getElementById('typeFilter');
+
+            // Populate subject filter options
+            const subjects = Storage.getSubjects();
+            subjectFilter.innerHTML = '<option value="All">All Subjects</option>' + 
+                subjects.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+            searchInput.addEventListener('input', renderTasks);
+            subjectFilter.addEventListener('change', renderTasks);
+            typeFilter.addEventListener('change', renderTasks);
+
+            renderTasks();
+        });
+
+        function filterByTab(tabName) {
+            currentTab = tabName;
+            ['All', 'Pending', 'InProgress', 'Completed', 'Urgent'].forEach(t => {
+                const el = document.getElementById('tab' + t);
+                if (el) el.classList.remove('active-tab');
+            });
+            const activeEl = document.getElementById('tab' + tabName.replace(' ', ''));
+            if (activeEl) activeEl.classList.add('active-tab');
+
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const tasks = Storage.getTasks();
+            const subjects = Storage.getSubjects();
+
+            // Counts
+            document.getElementById('countAll').textContent = tasks.length;
+            document.getElementById('countPending').textContent = tasks.filter(t => t.status === 'Pending').length;
+            document.getElementById('countInProgress').textContent = tasks.filter(t => t.status === 'In Progress').length;
+            document.getElementById('countCompleted').textContent = tasks.filter(t => t.status === 'Completed').length;
+            
+            const urgentCount = tasks.filter(t => {
+                if (t.status === 'Completed') return false;
+                const state = Deadline.getUrgencyState(t.dueDate);
+                return ['Overdue', 'Due Today', 'Urgent', 'Due Soon'].includes(state.status);
+            }).length;
+            document.getElementById('countUrgent').textContent = urgentCount;
+
+            // Filter logic
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const subjectVal = document.getElementById('subjectFilter').value;
+            const typeVal = document.getElementById('typeFilter').value;
+
+            let filtered = tasks.filter(t => {
+                // Tab filter
+                if (currentTab === 'Pending' && t.status !== 'Pending') return false;
+                if (currentTab === 'In Progress' && t.status !== 'In Progress') return false;
+                if (currentTab === 'Completed' && t.status !== 'Completed') return false;
+                if (currentTab === 'Urgent') {
+                    if (t.status === 'Completed') return false;
+                    const state = Deadline.getUrgencyState(t.dueDate);
+                    if (!['Overdue', 'Due Today', 'Urgent', 'Due Soon'].includes(state.status)) return false;
+                }
+
+                // Subject filter
+                if (subjectVal !== 'All' && String(t.subjectId) !== String(subjectVal)) return false;
+
+                // Category filter
+                if (typeVal !== 'All' && (t.type || t.taskType) !== typeVal) return false;
+
+                // Search query
+                const sub = subjects.find(s => String(s.id) === String(t.subjectId));
+                const subName = sub ? sub.name.toLowerCase() : '';
+                const titleStr = (t.title || '').toLowerCase();
+                const descStr = (t.description || '').toLowerCase();
+                const typeStr = (t.type || t.taskType || '').toLowerCase();
+
+                return titleStr.includes(searchVal) || descStr.includes(searchVal) || subName.includes(searchVal) || typeStr.includes(searchVal);
+            });
+
+            // Sort by priority and due date
+            filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+            const grid = document.getElementById('tasksGrid');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <p style="font-size: 2.5rem; margin-bottom: 12px;">🔍</p>
+                        <h3>No Requirements Found</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Try adjusting your filters or search terms, or create a new requirement.</p>
+                        <a href="task-form.html" class="btn btn-primary">Add New Requirement</a>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(t => {
+                const sub = subjects.find(s => String(s.id) === String(t.subjectId));
+                const urgency = Deadline.getUrgencyState(t.dueDate, t.dueTime, t.status);
+                const subtasks = t.subtasks || [];
+                const doneSub = subtasks.filter(s => s.completed || s.isCompleted).length;
+
+                return `
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                <span class="badge badge-normal" style="font-size: 0.75rem;">🏷️ ${t.type || t.taskType || 'Requirement'}</span>
+                                <span class="badge ${urgency.badgeClass}" data-due-date="${t.dueDate}">
+                                    ${t.status === 'Completed' ? '✅ Completed' : urgency.label}
+                                </span>
+                            </div>
+
+                            <h3 style="margin: 0 0 6px 0; font-size: 1.1rem; color: var(--text-heading);">
+                                <a href="task-details.html?id=${t.id}" style="text-decoration: none; color: inherit;">${t.title}</a>
+                            </h3>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                                📚 <strong>${sub ? sub.name : 'General'}</strong> &bull; Priority: <span style="font-weight: 600; color: ${t.priority === 'High' ? 'var(--danger)' : t.priority === 'Medium' ? 'var(--warning)' : 'var(--success)'};">${t.priority}</span>
+                            </div>
+
+                            ${t.description ? `<p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px;">${t.description.length > 100 ? t.description.substring(0, 100) + '...' : t.description}</p>` : ''}
+
+                            ${subtasks.length > 0 ? `
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; background: rgba(0,0,0,0.02); padding: 6px 10px; border-radius: 4px;">
+                                    📋 Subtasks progress: <strong>${doneSub} / ${subtasks.length}</strong>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem;">
+                            <span style="color: var(--text-muted);">📅 Due: ${Deadline.formatDeadline(t.dueDate, t.dueTime)}</span>
+                            <div style="display: flex; gap: 6px;">
+                                <a href="task-details.html?id=${t.id}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.78rem;">👁️ Details</a>
+                                <a href="task-form.html?id=${t.id}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.78rem;">✏️ Edit</a>
+                                <button onclick="quickToggleStatus('${t.id}')" class="btn ${t.status === 'Completed' ? 'btn-secondary' : 'btn-success'}" style="padding: 4px 8px; font-size: 0.78rem;">
+                                    ${t.status === 'Completed' ? 'Undo' : '✓ Done'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.quickToggleStatus = (id) => {
+            const task = Storage.getTasks().find(t => String(t.id) === String(id));
+            if (!task) return;
+            const newStatus = task.status === 'Completed' ? 'Pending' : 'Completed';
+            Storage.updateTask(id, { status: newStatus });
+            renderTasks();
+        };
+    </script>
+</body>
+</html>

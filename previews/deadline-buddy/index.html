@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Deadline Buddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: var(--bg-main);
+            padding: 20px;
+        }
+        .auth-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 440px;
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .auth-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .school-badge {
+            background-color: var(--bg-accent-peach);
+            color: var(--text-heading);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <div class="auth-header">
+        <div class="auth-brand">
+            <div class="brand-icon">🎓</div>
+            <div style="text-align: left;">
+                <div class="brand-title" style="font-size: 1.4rem;">Deadline Buddy</div>
+                <div class="brand-sub">Olinsterg College Inc.</div>
+            </div>
+        </div>
+        <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-heading); margin-top: 8px;">Welcome, Student! 👋</h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">Grade 12 Academic Task & Deadline Tracker</p>
+        <div class="school-badge">Grade 12 ASSH • Academic Track</div>
+    </div>
+
+    <form id="loginForm">
+        <div class="form-group" style="margin-bottom: 18px;">
+            <label for="studentName">Student Full Name *</label>
+            <input type="text" id="studentName" class="form-control" placeholder="e.g. Denmhar Dela Cruz" required autofocus>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 24px;">
+            <label for="strand">Strand / Track</label>
+            <select id="strand" class="form-control" required>
+                <option value="ASSH (Arts, Social Sciences & Humanities)" selected>ASSH (Arts, Social Sciences & Humanities)</option>
+                <option value="STEM (Science, Tech, Engineering & Math)">STEM (Science, Tech, Engineering & Math)</option>
+                <option value="ABM (Accountancy, Business & Management)">ABM (Accountancy, Business & Management)</option>
+                <option value="HUMSS (Humanities & Social Sciences)">HUMSS (Humanities & Social Sciences)</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; justify-content: center;">
+            Start Managing Deadlines &rarr;
+        </button>
+    </form>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/deadline.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const user = Storage.getUser();
+        if (user && user.name) {
+            document.getElementById('studentName').value = user.name;
+            if (user.strand) document.getElementById('strand').value = user.strand;
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value.trim();
+            const strand = document.getElementById('strand').value;
+
+            if (name) {
+                Storage.saveUser({
+                    name,
+                    strand,
+                    gradeLevel: 'Grade 12',
+                    school: 'Olinsterg College Inc.'
+                });
+                window.location.href = 'dashboard.html';
+            }
+        });
+    });
+</script>
+</body>
+</html>

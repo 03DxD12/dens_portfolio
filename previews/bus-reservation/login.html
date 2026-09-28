@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Voyage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-shell">
+      <a class="brand" href="index.html"><i class="ri-bus-wifi-fill"></i> Voyage</a>
+      <section class="auth-card">
+        <div>
+          <p class="eyebrow">Account access</p>
+          <h1>Login</h1>
+          <p class="muted">Use admin / adminpassword for the seeded admin account.</p>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" id="login-tab" type="button">Login</button>
+          <button class="tab" id="signup-tab" type="button">Sign up</button>
+        </div>
+
+        <form id="login-form" class="auth-form">
+          <input id="login-username" placeholder="Username" required />
+          <input id="login-password" type="password" placeholder="Password" required />
+          <button class="btn primary full" type="submit">Login</button>
+        </form>
+
+        <form id="signup-form" class="auth-form hidden">
+          <input id="signup-username" placeholder="Username" required />
+          <input id="signup-email" type="email" placeholder="Email" />
+          <input id="signup-phone" placeholder="Phone" />
+          <input id="signup-password" type="password" placeholder="Password" required />
+          <button class="btn primary full" type="submit">Create Account</button>
+        </form>
+
+        <p id="auth-message" class="message"></p>
+      </section>
+    </main>
+
+    <script>
+      const loginTab = document.getElementById("login-tab");
+      const signupTab = document.getElementById("signup-tab");
+      const loginForm = document.getElementById("login-form");
+      const signupForm = document.getElementById("signup-form");
+      const message = document.getElementById("auth-message");
+
+      function setMode(mode) {
+        const signup = mode === "signup";
+        signupForm.classList.toggle("hidden", !signup);
+        loginForm.classList.toggle("hidden", signup);
+        signupTab.classList.toggle("active", signup);
+        loginTab.classList.toggle("active", !signup);
+        message.textContent = "";
+      }
+
+      loginTab.addEventListener("click", () => setMode("login"));
+      signupTab.addEventListener("click", () => setMode("signup"));
+
+      async function submitAuth(url, payload) {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Authentication failed");
+        return data;
+      }
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const data = await submitAuth("/api/auth/login", {
+            username: document.getElementById("login-username").value,
+            password: document.getElementById("login-password").value,
+          });
+          location.href = new URLSearchParams(location.search).has("admin") || data.user.role === "ADMIN"
+            ? "admin.html"
+            : "index.html";
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+
+      signupForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          await submitAuth("/api/auth/register", {
+            username: document.getElementById("signup-username").value,
+            email: document.getElementById("signup-email").value,
+            phone: document.getElementById("signup-phone").value,
+            password: document.getElementById("signup-password").value,
+          });
+          location.href = "index.html";
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+    </script>
+  </body>
+</html>

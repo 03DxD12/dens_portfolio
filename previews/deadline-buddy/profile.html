@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - Deadline Buddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">🎓</div>
+                <div>
+                    <div class="brand-title">Deadline Buddy</div>
+                    <div class="brand-sub">Olinsterg College Inc.</div>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Tasks & Requirements</span>
+                </a>
+                <a href="subjects.html" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>Subjects</span>
+                </a>
+                <a href="calendar.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span>Calendar</span>
+                </a>
+                <a href="reminders.html" class="nav-item">
+                    <span class="nav-icon">⏰</span>
+                    <span>Reminders & Alerts</span>
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <span class="nav-icon">👤</span>
+                    <span>Student Profile</span>
+                </a>
+            </nav>
+
+            <div class="user-pill">
+                <div class="avatar" id="sidebarAvatar">G12</div>
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight: 600; font-size: 0.88rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" id="sidebarName">Student</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);" id="sidebarTrack">Grade 12 - ASSH</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button class="mobile-toggle" id="menuToggle">☰</button>
+                <div style="flex: 1;">
+                    <h1 style="font-size: 1.3rem; margin: 0;">Student Profile 👤</h1>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Manage your profile and keep a copy of your saved schoolwork</p>
+                </div>
+
+                <div class="notification-wrapper">
+                    <button class="icon-btn" id="notifBtn" title="Notifications">
+                        🔔
+                        <span class="badge-dot hidden" id="notifBadge"></span>
+                    </button>
+                    <div class="notif-dropdown hidden" id="notifDropdown">
+                        <div class="notif-header">
+                            <span style="font-weight: 600;">Deadline Alerts</span>
+                            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 2px 8px;" id="clearNotifsBtn">Clear All</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No active alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Container -->
+            <div class="container" style="max-width: 900px;">
+                <div class="grid grid-2">
+                    <!-- Academic Profile Form -->
+                    <div class="card">
+                        <h3 style="margin-top: 0; font-size: 1.15rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                            🎓 Academic Profile Information
+                        </h3>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="studentName">Student Name *</label>
+                                <input type="text" id="studentName" class="form-control" placeholder="e.g., Juan Dela Cruz" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gradeLevel">Grade Level</label>
+                                <input type="text" id="gradeLevel" class="form-control" value="Grade 12" readonly style="background: rgba(0,0,0,0.03);">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="trackStrand">Strand / Track *</label>
+                                <select id="trackStrand" class="form-control" required>
+                                    <option value="ASSH (Arts, Social Sciences & Humanities)" selected>ASSH (Arts, Social Sciences & Humanities)</option>
+                                    <option value="STEM (Science, Tech, Engineering & Math)">STEM (Science, Tech, Engineering & Math)</option>
+                                    <option value="ABM (Accountancy, Business & Management)">ABM (Accountancy, Business & Management)</option>
+                                    <option value="HUMSS (Humanities & Social Sciences)">HUMSS (Humanities & Social Sciences)</option>
+                                    <option value="GAS (General Academic Strand)">GAS (General Academic Strand)</option>
+                                    <option value="TVL (Technical-Vocational-Livelihood)">TVL (Technical-Vocational-Livelihood)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="schoolName">School Name</label>
+                                <input type="text" id="schoolName" class="form-control" value="Olinsterg College Inc." required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="section">Section / Room</label>
+                                <input type="text" id="section" class="form-control" placeholder="e.g., 12-St. Augustine">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 12px;">Save Profile Updates</button>
+                        </form>
+                    </div>
+
+                    <!-- Backup & Data Management Card -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="card">
+                            <h3 style="margin-top: 0; font-size: 1.15rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                                💾 Save & Bring Back Records
+                            </h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                                Save a copy of your Deadline Buddy records so you can bring them back later, even if you use another laptop or browser.
+                            </p>
+
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <button class="btn btn-primary" id="exportBtn" style="justify-content: center; gap: 8px;">
+                                    Download My Saved Records
+                                </button>
+
+                                <div style="position: relative;">
+                                    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                                    <button class="btn btn-secondary" id="importBtn" style="width: 100%; justify-content: center; gap: 8px;">
+                                        Bring Back My Saved Records
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Reset Card -->
+                        <div class="card" style="border-top: 3px solid var(--warning);">
+                            <h3 style="margin-top: 0; font-size: 1.1rem; color: var(--text-heading);">
+                                🔄 Reset Sample Records
+                            </h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                                Use this only for practice or presentation. It removes the records saved in this browser and brings back the sample Grade 12 ASSH tasks.
+                            </p>
+                            <button class="btn btn-secondary" id="resetDemoBtn" style="width: 100%; justify-content: center; color: var(--warning); border-color: var(--warning);">
+                                Bring Back Sample Records
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Mobile Nav -->
+    <div class="mobile-nav">
+        <a href="dashboard.html" class="mobile-nav-item">
+            <span class="icon">📊</span>
+            <span>Home</span>
+        </a>
+        <a href="tasks.html" class="mobile-nav-item">
+            <span class="icon">📝</span>
+            <span>Tasks</span>
+        </a>
+        <a href="subjects.html" class="mobile-nav-item">
+            <span class="icon">📚</span>
+            <span>Subjects</span>
+        </a>
+        <a href="calendar.html" class="mobile-nav-item">
+            <span class="icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <a href="reminders.html" class="mobile-nav-item">
+            <span class="icon">⏰</span>
+            <span>Alerts</span>
+        </a>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/deadline.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = Storage.getUser();
+
+            document.getElementById('studentName').value = user.name || '';
+            document.getElementById('trackStrand').value = user.strand || 'ASSH (Arts, Social Sciences & Humanities)';
+            document.getElementById('schoolName').value = user.school || 'Olinsterg College Inc.';
+            document.getElementById('section').value = user.section || '';
+
+            // Profile form save
+            document.getElementById('profileForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('studentName').value.trim();
+                const strand = document.getElementById('trackStrand').value;
+                const school = document.getElementById('schoolName').value.trim();
+                const section = document.getElementById('section').value.trim();
+
+                Storage.saveUser({ name, gradeLevel: 'Grade 12', strand, school, section });
+                alert('Profile updated successfully!');
+                window.location.reload();
+            });
+
+            // Export JSON
+            document.getElementById('exportBtn').addEventListener('click', () => {
+                Storage.exportBackupJSON();
+            });
+
+            // Import JSON
+            const fileInput = document.getElementById('importFileInput');
+            document.getElementById('importBtn').addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const res = Storage.importBackupJSON(event.target.result);
+                    if (res.success) {
+                        alert('Your saved records were restored successfully!');
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        alert('We could not restore the selected file. Please choose a valid Deadline Buddy saved-records file.');
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            // Reset demo data
+            document.getElementById('resetDemoBtn').addEventListener('click', () => {
+                if (confirm('This will remove the records saved in this browser and bring back the sample Grade 12 ASSH tasks. Continue?')) {
+                    localStorage.clear();
+                    Storage.seedDemoData();
+                    alert('Sample records restored!');
+                    window.location.href = 'dashboard.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

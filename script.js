@@ -234,6 +234,19 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", updateNavbarState, { passive: true });
   }
 
+  const updateScrollProgress = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    document.documentElement.style.setProperty(
+      "--scroll-progress",
+      `${Math.min(100, Math.max(0, progress))}%`
+    );
+  };
+
+  updateScrollProgress();
+  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("resize", updateScrollProgress);
+
   // --- Live Hover Preview Logic ---
   const previewModal = document.getElementById("preview-modal");
   const previewIframe = document.getElementById("preview-iframe");
@@ -287,14 +300,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const previewLinks = document.querySelectorAll("[data-hover-preview]");
   
   previewLinks.forEach(link => {
-    link.addEventListener("mouseenter", () => {
+    const openPreviewFromLink = () => {
       const url = link.getAttribute("data-hover-preview");
       const card = link.closest(".project-card");
       const title = card ? card.querySelector("h3").textContent : "Project Preview";
       showHoverPreview(url, title);
+    };
+
+    link.addEventListener("mouseenter", () => {
+      if (!window.matchMedia("(hover: hover)").matches) return;
+      openPreviewFromLink();
     });
 
     link.addEventListener("mouseleave", hideHoverPreview);
+
+    link.addEventListener("click", (event) => {
+      const isTouchLayout =
+        !window.matchMedia("(hover: hover)").matches || window.innerWidth <= 991;
+
+      if (!isTouchLayout) return;
+
+      event.preventDefault();
+      openPreviewFromLink();
+    });
   });
 
   // Keep the preview open if the user hovers inside the preview window itself

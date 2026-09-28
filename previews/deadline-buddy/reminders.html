@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminders & Alerts - Deadline Buddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">🎓</div>
+                <div>
+                    <div class="brand-title">Deadline Buddy</div>
+                    <div class="brand-sub">Olinsterg College Inc.</div>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Tasks & Requirements</span>
+                </a>
+                <a href="subjects.html" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>Subjects</span>
+                </a>
+                <a href="calendar.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span>Calendar</span>
+                </a>
+                <a href="reminders.html" class="nav-item active">
+                    <span class="nav-icon">⏰</span>
+                    <span>Reminders & Alerts</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Student Profile</span>
+                </a>
+            </nav>
+
+            <div class="user-pill">
+                <div class="avatar" id="sidebarAvatar">G12</div>
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight: 600; font-size: 0.88rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" id="sidebarName">Student</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);" id="sidebarTrack">Grade 12 - ASSH</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button class="mobile-toggle" id="menuToggle">☰</button>
+                <div style="flex: 1;">
+                    <h1 style="font-size: 1.3rem; margin: 0;">Reminders & Deadline Alerts ⏰</h1>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Categorized list of urgent requirements needing immediate attention</p>
+                </div>
+
+                <button class="btn btn-primary" id="requestNotifPermBtn">
+                    <span>🔔</span> Enable Desktop Alerts
+                </button>
+
+                <div class="notification-wrapper">
+                    <button class="icon-btn" id="notifBtn" title="Notifications">
+                        🔔
+                        <span class="badge-dot hidden" id="notifBadge"></span>
+                    </button>
+                    <div class="notif-dropdown hidden" id="notifDropdown">
+                        <div class="notif-header">
+                            <span style="font-weight: 600;">Deadline Alerts</span>
+                            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 2px 8px;" id="clearNotifsBtn">Clear All</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No active alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Container -->
+            <div class="container">
+                <!-- Browser permission notice -->
+                <div class="alert alert-info" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;" id="permAlert">
+                    <div>
+                        🔔 <strong>Browser Notifications Status:</strong> <span id="permStatusText">Checking permission...</span>
+                    </div>
+                    <button class="btn btn-secondary" style="font-size: 0.8rem;" id="togglePermBtn">Request Permission</button>
+                </div>
+
+                <div class="grid grid-4">
+                    <!-- Overdue Section -->
+                    <div class="card" style="border-top: 4px solid var(--danger);">
+                        <h3 style="margin-top: 0; color: var(--danger); font-size: 1.15rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span>🚨 Overdue</span>
+                            <span class="badge badge-overdue" id="overdueCount">0</span>
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Tasks past due date.</p>
+                        <div id="overdueList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Due Today Section -->
+                    <div class="card" style="border-top: 4px solid var(--warning);">
+                        <h3 style="margin-top: 0; color: var(--warning); font-size: 1.15rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span>⚠️ Due Today</span>
+                            <span class="badge badge-urgent" id="dueTodayCount">0</span>
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Deadlines today.</p>
+                        <div id="dueTodayList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Due Tomorrow Section -->
+                    <div class="card" style="border-top: 4px solid #3b82f6;">
+                        <h3 style="margin-top: 0; color: #3b82f6; font-size: 1.15rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span>⏳ Due Tomorrow</span>
+                            <span class="badge badge-due-soon" id="dueTomorrowCount">0</span>
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Requirements within 24h.</p>
+                        <div id="dueTomorrowList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Coming Up Section -->
+                    <div class="card" style="border-top: 4px solid var(--primary);">
+                        <h3 style="margin-top: 0; color: var(--primary); font-size: 1.15rem; display: flex; align-items: center; justify-content: space-between;">
+                            <span>📅 Coming Up Soon</span>
+                            <span class="badge badge-normal" id="comingUpCount">0</span>
+                        </h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Due within 3-7 days.</p>
+                        <div id="comingUpList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Rendered dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Notifications Log Card -->
+                <div class="card" style="margin-top: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin: 0; font-size: 1.1rem;">🔔 Notification History Log</h3>
+                        <button class="btn btn-secondary" style="font-size: 0.8rem;" id="clearLogBtn">Clear Log</button>
+                    </div>
+                    <div id="notifLogList" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Mobile Nav -->
+    <div class="mobile-nav">
+        <a href="dashboard.html" class="mobile-nav-item">
+            <span class="icon">📊</span>
+            <span>Home</span>
+        </a>
+        <a href="tasks.html" class="mobile-nav-item">
+            <span class="icon">📝</span>
+            <span>Tasks</span>
+        </a>
+        <a href="subjects.html" class="mobile-nav-item">
+            <span class="icon">📚</span>
+            <span>Subjects</span>
+        </a>
+        <a href="calendar.html" class="mobile-nav-item">
+            <span class="icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <a href="reminders.html" class="mobile-nav-item active">
+            <span class="icon">⏰</span>
+            <span>Alerts</span>
+        </a>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/deadline.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reqPermBtn = document.getElementById('requestNotifPermBtn');
+            const togglePermBtn = document.getElementById('togglePermBtn');
+
+            function updatePermUI() {
+                const statusText = document.getElementById('permStatusText');
+                if ('Notification' in window) {
+                    statusText.textContent = Notification.permission.toUpperCase();
+                    if (Notification.permission === 'granted') {
+                        statusText.style.color = 'var(--success)';
+                        reqPermBtn.style.display = 'none';
+                        togglePermBtn.textContent = 'Notification Granted ✓';
+                        togglePermBtn.disabled = true;
+                    } else if (Notification.permission === 'denied') {
+                        statusText.style.color = 'var(--danger)';
+                        togglePermBtn.textContent = 'Blocked in Browser Settings';
+                    } else {
+                        statusText.style.color = 'var(--warning)';
+                        togglePermBtn.textContent = 'Enable Notifications';
+                    }
+                } else {
+                    statusText.textContent = 'NOT SUPPORTED';
+                }
+            }
+
+            const requestPermission = () => {
+                requestBrowserNotificationPermission();
+                setTimeout(updatePermUI, 500);
+            };
+
+            reqPermBtn.addEventListener('click', requestPermission);
+            togglePermBtn.addEventListener('click', requestPermission);
+
+            document.getElementById('clearLogBtn').addEventListener('click', () => {
+                Storage.clearNotifications();
+                renderReminders();
+            });
+
+            updatePermUI();
+            renderReminders();
+        });
+
+        function renderReminders() {
+            const tasks = Storage.getTasks().filter(t => t.status !== 'Completed');
+            const subjects = Storage.getSubjects();
+
+            const overdue = [];
+            const dueToday = [];
+            const dueTomorrow = [];
+            const comingUp = [];
+
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+            tasks.forEach(t => {
+                const urgency = Deadline.getUrgencyState(t.dueDate, t.dueTime, t.status);
+                const taskDate = Deadline.parseTaskDueDateTime(t.dueDate, t.dueTime);
+                const tDateStr = taskDate.toISOString().split('T')[0];
+
+                if (urgency.status === 'Overdue') {
+                    overdue.push(t);
+                } else if (tDateStr === todayStr) {
+                    dueToday.push(t);
+                } else if (tDateStr === tomorrowStr) {
+                    dueTomorrow.push(t);
+                } else {
+                    comingUp.push(t);
+                }
+            });
+
+            document.getElementById('overdueCount').textContent = overdue.length;
+            document.getElementById('dueTodayCount').textContent = dueToday.length;
+            document.getElementById('dueTomorrowCount').textContent = dueTomorrow.length;
+            document.getElementById('comingUpCount').textContent = comingUp.length;
+
+            function renderTaskGroup(listElId, groupTasks) {
+                const container = document.getElementById(listElId);
+                if (groupTasks.length === 0) {
+                    container.innerHTML = `<div style="font-size: 0.85rem; color: var(--text-muted); padding: 8px;">No requirements in this category.</div>`;
+                    return;
+                }
+
+                container.innerHTML = groupTasks.map(t => {
+                    const sub = subjects.find(s => String(s.id) === String(t.subjectId));
+                    const urgency = Deadline.getUrgencyState(t.dueDate, t.dueTime, t.status);
+                    return `
+                        <div style="padding: 10px; background: rgba(0,0,0,0.02); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="font-size: 0.92rem; color: var(--text-heading);">${t.title}</strong>
+                                <div style="font-size: 0.78rem; color: var(--text-muted);">
+                                    📚 ${sub ? (sub.name || sub.subjectName) : 'General'} &bull; ⏰ <span data-due-date="${t.dueDate}">${urgency.label}</span>
+                                </div>
+                            </div>
+                            <a href="task-details.html?id=${t.id}" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px;">View</a>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            renderTaskGroup('overdueList', overdue);
+            renderTaskGroup('dueTodayList', dueToday);
+            renderTaskGroup('dueTomorrowList', dueTomorrow);
+            renderTaskGroup('comingUpList', comingUp);
+
+            // Render notification log
+            const notifs = Storage.getNotifications();
+            const logContainer = document.getElementById('notifLogList');
+            if (notifs.length === 0) {
+                logContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.85rem; padding: 12px; text-align: center;">Notification history is empty.</div>`;
+            } else {
+                logContainer.innerHTML = notifs.map(n => `
+                    <div style="padding: 10px 14px; background: rgba(0,0,0,0.02); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem;">
+                        <div>
+                            <strong>${n.title}</strong> &bull; <span style="color: var(--text-muted);">${n.message}</span>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">${new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `).join('');
+            }
+        }
+    </script>
+</body>
+</html>

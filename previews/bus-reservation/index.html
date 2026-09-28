@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voyage | Bus Reservations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="topbar">
+      <a class="brand" href="index.html"><i class="ri-bus-wifi-fill"></i> Voyage</a>
+      <div class="nav-links">
+        <a class="active" href="index.html">Book</a>
+        <a href="#lookup-panel">My Booking</a>
+        <a href="admin.html">Admin</a>
+      </div>
+      <div class="auth-chip" id="auth-chip">
+        <a class="btn ghost small" href="login.html">Login</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Philippines intercity travel</p>
+          <h1>Voyage</h1>
+          <p>
+            Search live schedules, choose your seats, reserve your ticket, and keep your
+            booking reference ready for boarding.
+          </p>
+        </div>
+
+        <form id="search-form" class="search-panel">
+          <label>
+            <span><i class="ri-map-pin-user-fill"></i> From</span>
+            <select id="origin" required>
+              <option value="" disabled selected>Select origin</option>
+            </select>
+          </label>
+          <button class="swap-btn" type="button" id="swap-route" title="Swap route">
+            <i class="ri-arrow-left-right-line"></i>
+          </button>
+          <label>
+            <span><i class="ri-map-pin-2-fill"></i> To</span>
+            <select id="destination" required>
+              <option value="" disabled selected>Select destination</option>
+            </select>
+          </label>
+          <label>
+            <span><i class="ri-calendar-event-fill"></i> Date</span>
+            <input type="date" id="date" required />
+          </label>
+          <button type="submit" class="btn primary">
+            <i class="ri-search-line"></i> Find Trips
+          </button>
+        </form>
+      </section>
+
+      <section id="results-section" class="section hidden">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Available departures</p>
+            <h2>Choose a trip</h2>
+          </div>
+          <p id="result-count" class="muted"></p>
+        </div>
+        <div id="results-container" class="trip-grid"></div>
+      </section>
+
+      <section id="lookup-panel" class="section split-section">
+        <div>
+          <p class="eyebrow">Existing reservation</p>
+          <h2>Lookup or cancel a booking</h2>
+          <p class="muted">
+            Use the reference from your ticket and the email or phone number used during
+            booking.
+          </p>
+        </div>
+        <form id="lookup-form" class="lookup-card">
+          <input id="lookup-reference" placeholder="Booking reference" required />
+          <input id="lookup-contact" placeholder="Email or phone" required />
+          <button type="submit" class="btn secondary">
+            <i class="ri-ticket-2-line"></i> Find Booking
+          </button>
+        </form>
+      </section>
+
+      <section id="lookup-result" class="section hidden"></section>
+    </main>
+
+    <div id="booking-modal" class="modal hidden">
+      <div class="modal-content">
+        <button class="icon-btn close-modal" type="button" title="Close">
+          <i class="ri-close-line"></i>
+        </button>
+        <div class="modal-header">
+          <p class="eyebrow">Confirm reservation</p>
+          <h2 id="modal-route">Route</h2>
+          <p id="modal-details" class="muted"></p>
+        </div>
+
+        <form id="booking-form">
+          <input type="hidden" id="modal-trip-id" />
+          <div class="form-grid">
+            <label>
+              <span>Passenger Name</span>
+              <input id="passenger-name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input id="contact-email" type="email" />
+            </label>
+            <label>
+              <span>Phone</span>
+              <input id="contact-phone" />
+            </label>
+            <label>
+              <span>Payment</span>
+              <select id="payment-method">
+                <option value="PAY_ON_BOARD">Pay on boarding</option>
+                <option value="MOCK_GCASH">Mock GCash paid</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="seat-map-wrap">
+            <div class="seat-map-header">
+              <strong>Select seats</strong>
+              <span id="seat-help" class="muted">Loading seat map...</span>
+            </div>
+            <div id="seat-map" class="seat-map"></div>
+          </div>
+
+          <div class="total-bar">
+            <span id="selected-seat-label">No seats selected</span>
+            <strong id="modal-total">₱0.00</strong>
+          </div>
+
+          <button type="submit" class="btn primary full">
+            <i class="ri-checkbox-circle-line"></i> Confirm Reservation
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

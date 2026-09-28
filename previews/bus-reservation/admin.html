@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Voyage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="admin-body">
+    <aside class="sidebar">
+      <a class="brand" href="admin.html"><i class="ri-bus-wifi-fill"></i> Voyage Admin</a>
+      <nav>
+        <a class="active" href="#"><i class="ri-dashboard-line"></i> Dashboard</a>
+        <a href="index.html"><i class="ri-home-4-line"></i> Passenger Site</a>
+        <button id="logout-btn" type="button"><i class="ri-logout-box-line"></i> Logout</button>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div>
+          <p class="eyebrow">Operations</p>
+          <h1>Dashboard</h1>
+        </div>
+        <button id="refresh-btn" class="btn secondary" type="button">
+          <i class="ri-refresh-line"></i> Refresh
+        </button>
+      </header>
+
+      <section class="stat-grid">
+        <article class="stat-card">
+          <span>Total Bookings</span>
+          <strong id="stat-bookings">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Active Trips</span>
+          <strong id="stat-trips">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Revenue</span>
+          <strong id="stat-revenue">₱0.00</strong>
+        </article>
+      </section>
+
+      <section class="admin-grid">
+        <article class="admin-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Recent reservations</p>
+              <h2>Bookings</h2>
+            </div>
+          </div>
+          <form id="filter-form" class="filter-row">
+            <input id="search" placeholder="Search reference, passenger, contact" />
+            <select id="status">
+              <option value="">All statuses</option>
+              <option value="CONFIRMED">Confirmed</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+            <input id="from" type="date" />
+            <input id="to" type="date" />
+            <button class="btn secondary" type="submit">Apply</button>
+          </form>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Passenger</th>
+                  <th>Route</th>
+                  <th>Seats</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="booking-table">
+                <tr><td colspan="6">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="admin-panel route-panel">
+          <p class="eyebrow">Route revenue</p>
+          <h2>Breakdown</h2>
+          <div id="route-breakdown" class="route-list"></div>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const table = document.getElementById("booking-table");
+
+      init();
+
+      async function init() {
+        const me = await fetch("/api/auth/me").then((res) => res.json());
+        if (!me.user || me.user.role !== "ADMIN") {
+          location.href = "login.html?admin=1";
+          return;
+        }
+        await refreshDashboard();
+      }
+
+      document.getElementById("refresh-btn").addEventListener("click", refreshDashboard);
+      document.getElementById("filter-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        refreshDashboard();
+      });
+      document.getElementById("logout-btn").addEventListener("click", async () => {
+        await fetch("/api/auth/logout", { method: "POST" });
+        location.href = "login.html";
+      });
+
+      async function refreshDashboard() {
+        await Promise.all([loadBookings(), loadStats()]);
+      }
+
+      async function loadBookings() {
+        table.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+        const params = new URLSearchParams();
+        for (const id of ["search", "status", "from", "to"]) {
+          const value = document.getElementById(id).value;
+          if (value) params.set(id, value);
+        }
+        const res = await fetch(`/api/bookings?${params}`);
+        if (res.status === 403 || res.status === 401) {
+          location.href = "login.html?admin=1";
+          return;
+        }
+        const bookings = await res.json();
+        if (!bookings.length) {
+          table.innerHTML = '<tr><td colspan="6">No reservations found.</td></tr>';
+          return;
+        }
+        table.innerHTML = bookings
+          .map(
+            (booking) => `
+              <tr>
+                <td>${booking.reference}</td>
+                <td>${escapeHtml(booking.passengerName)}</td>
+                <td>${booking.tripDetails.route}<br><small>${booking.tripDetails.date} ${booking.tripDetails.time}</small></td>
+                <td>${booking.seatNumbers.join(", ")}</td>
+                <td>${formatCurrency(booking.totalPrice)}</td>
+                <td><span class="status ${booking.status.toLowerCase()}">${booking.status}</span></td>
+              </tr>
+            `
+          )
+          .join("");
+      }
+
+      async function loadStats() {
+        const res = await fetch("/api/admin/stats");
+        const stats = await res.json();
+        document.getElementById("stat-bookings").textContent = stats.totalBookings || 0;
+        document.getElementById("stat-trips").textContent = stats.activeTrips || 0;
+        document.getElementById("stat-revenue").textContent = formatCurrency(stats.revenue || 0);
+        document.getElementById("route-breakdown").innerHTML = (stats.byRoute || [])
+          .map(
+            (route) => `
+              <div class="route-row">
+                <div>
+                  <strong>${route.route}</strong>
+                  <span>${route.bookings} booking${route.bookings === 1 ? "" : "s"}</span>
+                </div>
+                <strong>${formatCurrency(route.revenue)}</strong>
+              </div>
+            `
+          )
+          .join("") || '<div class="notice">No revenue yet.</div>';
+      }
+
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(value);
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => {
+          const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
+          return map[char];
+        });
+      }
+    </script>
+  </body>
+</html>

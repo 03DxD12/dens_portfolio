@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AccessLearn Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f4f7fb; }
+    header { padding: 22px clamp(16px, 5vw, 64px); background: #102a43; color: #fff; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    header strong { font-size: 1.35rem; }
+    main { padding: 32px clamp(16px, 5vw, 64px); display: grid; gap: 24px; }
+    .hero, .panel, .course { background: #fff; border: 1px solid #dbe4f0; border-radius: 18px; box-shadow: 0 16px 36px rgba(16,42,67,.08); }
+    .hero { padding: clamp(22px, 4vw, 42px); display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px; align-items: center; }
+    h1 { margin: 0; font-size: clamp(2.2rem, 6vw, 4.3rem); letter-spacing: 0; }
+    h2 { margin: 0 0 12px; }
+    p { color: #62738a; line-height: 1.7; }
+    .button, button { border: 0; border-radius: 999px; padding: 12px 18px; background: #23c6a8; color: #07211d; font-weight: 800; cursor: pointer; }
+    .metric-grid, .course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .metric { padding: 18px; border-radius: 14px; background: #e9fbf7; }
+    .metric strong { display: block; font-size: 1.7rem; color: #0f766e; }
+    .panel { padding: 22px; }
+    .course { padding: 18px; display: grid; gap: 12px; }
+    .progress { height: 10px; border-radius: 999px; background: #dbe4f0; overflow: hidden; }
+    .progress span { display: block; height: 100%; background: linear-gradient(90deg, #23c6a8, #38bdf8); }
+    .quiz { display: grid; gap: 12px; }
+    .choice { width: 100%; text-align: left; background: #edf2f7; color: #172033; }
+    .choice.correct { background: #bbf7d0; }
+    .choice.wrong { background: #fecaca; }
+    @media (max-width: 760px) { .hero, .metric-grid, .course-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header><strong>AccessLearn</strong><span>Inclusive learning dashboard</span></header>
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Learn with accessible lessons.</h1>
+        <p>Track modules, open course materials, and answer a quick assessment in this browser demo.</p>
+        <a class="button" href="#courses">Open Courses</a>
+      </div>
+      <div class="metric-grid">
+        <div class="metric"><strong id="completed">0</strong><span>Completed</span></div>
+        <div class="metric"><strong>3</strong><span>Courses</span></div>
+        <div class="metric"><strong id="score">--</strong><span>Quiz Score</span></div>
+      </div>
+    </section>
+    <section id="courses" class="panel">
+      <h2>Courses</h2>
+      <div class="course-grid" id="courseGrid"></div>
+    </section>
+    <section class="panel">
+      <h2>Quick Assessment</h2>
+      <p>Which feature helps learners continue from where they stopped?</p>
+      <div class="quiz">
+        <button class="choice" data-correct="false">Static printed modules only</button>
+        <button class="choice" data-correct="true">Progress tracking</button>
+        <button class="choice" data-correct="false">Removing all navigation</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    const courses = [
+      ["HTML Basics", 80],
+      ["Digital Literacy", 55],
+      ["Assistive Technology", 35],
+    ];
+    const key = "accesslearn-completed";
+    const grid = document.getElementById("courseGrid");
+    const completed = document.getElementById("completed");
+    function render() {
+      const done = JSON.parse(localStorage.getItem(key) || "[]");
+      completed.textContent = done.length;
+      grid.innerHTML = "";
+      courses.forEach(([title, progress], index) => {
+        const card = document.createElement("article");
+        card.className = "course";
+        card.innerHTML = `<strong>${title}</strong><p>${done.includes(index) ? "Completed" : "In progress"}</p><div class="progress"><span style="width:${done.includes(index) ? 100 : progress}%"></span></div><button data-index="${index}">Mark Complete</button>`;
+        grid.appendChild(card);
+      });
+      grid.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.index);
+          const next = Array.from(new Set([...JSON.parse(localStorage.getItem(key) || "[]"), index]));
+          localStorage.setItem(key, JSON.stringify(next));
+          render();
+        });
+      });
+    }
+    document.querySelectorAll(".choice").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".choice").forEach((item) => item.classList.remove("correct", "wrong"));
+        button.classList.add(button.dataset.correct === "true" ? "correct" : "wrong");
+        document.getElementById("score").textContent = button.dataset.correct === "true" ? "100%" : "0%";
+      });
+    });
+    render();
+  </script>
+</body>
+</html>

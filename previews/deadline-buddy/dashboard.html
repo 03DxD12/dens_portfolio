@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Deadline Buddy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">🎓</div>
+                <div>
+                    <div class="brand-title">Deadline Buddy</div>
+                    <div class="brand-sub">Olinsterg College Inc.</div>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="tasks.html" class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Tasks & Requirements</span>
+                </a>
+                <a href="subjects.html" class="nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span>Subjects</span>
+                </a>
+                <a href="calendar.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span>Calendar</span>
+                </a>
+                <a href="reminders.html" class="nav-item">
+                    <span class="nav-icon">⏰</span>
+                    <span>Reminders & Alerts</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span>Student Profile</span>
+                </a>
+            </nav>
+
+            <div class="user-pill">
+                <div class="avatar" id="sidebarAvatar">G12</div>
+                <div style="flex:1; overflow:hidden;">
+                    <div style="font-weight: 700; font-size: 0.88rem; color: var(--text-heading); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" id="sidebarName">Student</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);" id="sidebarTrack">Grade 12 - ASSH</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Layout -->
+        <main class="main-content">
+            <!-- Top Navigation Bar -->
+            <header class="topbar">
+                <button class="mobile-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+                <div style="flex: 1;">
+                    <h1 style="font-size: 1.3rem; font-weight: 800; color: var(--text-heading); margin: 0;">Academic Dashboard 📊</h1>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Welcome back! Here is your Grade 12 assignment overview.</p>
+                </div>
+
+                <a href="task-form.html" class="btn btn-primary" style="font-size: 0.85rem;">
+                    <span>➕</span> Add Requirement
+                </a>
+
+                <div class="notification-wrapper">
+                    <button class="icon-btn" id="notifBtn" title="Notifications">
+                        🔔
+                        <span class="badge-dot hidden" id="notifBadge"></span>
+                    </button>
+                    <div class="notif-dropdown hidden" id="notifDropdown">
+                        <div class="notif-header">
+                            <span style="font-weight: 700; color: var(--text-heading);">Deadline Alerts</span>
+                            <button class="btn btn-secondary" style="font-size: 0.72rem; padding: 2px 8px;" id="clearNotifsBtn">Clear All</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div style="padding: 16px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No active alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Container -->
+            <div class="container">
+                <!-- Stat Metric Cards -->
+                <div class="grid grid-4" style="margin-bottom: 24px;">
+                    <div class="card" style="border-top: 4px solid var(--primary);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Total Requirements</div>
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--text-heading); margin-top: 4px;" id="statTotal">0</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid var(--urgency-today-bg);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Due Today</div>
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--text-heading); margin-top: 4px;" id="statDueToday">0</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid var(--urgency-overdue-bg);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Overdue</div>
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--urgency-overdue-bg); margin-top: 4px;" id="statOverdue">0</div>
+                    </div>
+
+                    <div class="card" style="border-top: 4px solid var(--urgency-completed-bg);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Completed</div>
+                        <div style="font-size: 2rem; font-weight: 800; color: var(--urgency-completed-text); margin-top: 4px;" id="statCompleted">0</div>
+                    </div>
+                </div>
+
+                <!-- Priority Focus Banner -->
+                <div class="card" style="background: var(--bg-card); border-left: 6px solid var(--primary); margin-bottom: 28px;" id="focusCard">
+                    <div style="font-size: 0.78rem; font-weight: 800; color: var(--primary-hover); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+                        🎯 PRIORITY REQUIREMENT FOCUS
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <h2 style="margin: 0; font-size: 1.35rem; font-weight: 800; color: var(--text-heading);" id="focusTitle">No Urgent Requirements</h2>
+                            <div style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;" id="focusSubject">Great job! All your assignments are currently on schedule.</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="badge badge-urgent" id="focusTimerBadge" data-due-date="">Calculated</span>
+                            <a href="tasks.html" class="btn btn-primary" id="focusBtn">View Requirement</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Requirements Section -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-heading); margin: 0;">Upcoming Academic Tasks 📌</h2>
+                    <a href="tasks.html" style="font-size: 0.88rem; font-weight: 700; color: var(--primary-hover); text-decoration: none;">View All Requirements &rarr;</a>
+                </div>
+
+                <!-- Task Cards Grid -->
+                <div class="grid grid-2" id="upcomingGrid">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Navigation Bar -->
+    <div class="mobile-nav">
+        <a href="dashboard.html" class="mobile-nav-item active">
+            <span class="icon">📊</span>
+            <span>Home</span>
+        </a>
+        <a href="tasks.html" class="mobile-nav-item">
+            <span class="icon">📝</span>
+            <span>Tasks</span>
+        </a>
+        <a href="subjects.html" class="mobile-nav-item">
+            <span class="icon">📚</span>
+            <span>Subjects</span>
+        </a>
+        <a href="calendar.html" class="mobile-nav-item">
+            <span class="icon">📅</span>
+            <span>Calendar</span>
+        </a>
+        <a href="reminders.html" class="mobile-nav-item">
+            <span class="icon">⏰</span>
+            <span>Alerts</span>
+        </a>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/deadline.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDashboard();
+        });
+
+        function renderDashboard() {
+            const tasks = Storage.getTasks();
+            const subjects = Storage.getSubjects();
+
+            // Stats
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.status === 'Completed').length;
+
+            const pending = tasks.filter(t => t.status !== 'Completed');
+            let overdueCount = 0;
+            let dueTodayCount = 0;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+
+            pending.forEach(t => {
+                const urgency = Deadline.getUrgencyState(t.dueDate, t.dueTime, t.status);
+                if (urgency.status === 'Overdue') overdueCount++;
+                const taskDate = Deadline.parseTaskDueDateTime(t.dueDate, t.dueTime);
+                const tDateStr = taskDate.toISOString().split('T')[0];
+                if (tDateStr === todayStr) dueTodayCount++;
+            });
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statDueToday').textContent = dueTodayCount;
+            document.getElementById('statOverdue').textContent = overdueCount;
+            document.getElementById('statCompleted').textContent = completed;
+
+            // Priority Focus Card (First non-completed task sorted by due date)
+            const sortedPending = [...pending].sort((a, b) => Deadline.parseTaskDueDateTime(a.dueDate, a.dueTime) - Deadline.parseTaskDueDateTime(b.dueDate, b.dueTime));
+
+            if (sortedPending.length > 0) {
+                const nextTask = sortedPending[0];
+                const sub = subjects.find(s => String(s.id) === String(nextTask.subjectId));
+                const urgency = Deadline.getUrgencyState(nextTask.dueDate, nextTask.dueTime, nextTask.status);
+
+                document.getElementById('focusTitle').textContent = nextTask.title;
+                document.getElementById('focusSubject').textContent = `📚 ${sub ? (sub.name || sub.subjectName) : 'General'} • Due: ${Deadline.formatDeadline(nextTask.dueDate, nextTask.dueTime)}`;
+                
+                const timerBadge = document.getElementById('focusTimerBadge');
+                timerBadge.setAttribute('data-due-date', nextTask.dueDate);
+                timerBadge.className = `badge ${urgency.badgeClass}`;
+                timerBadge.textContent = urgency.label;
+
+                document.getElementById('focusBtn').href = `task-details.html?id=${nextTask.id}`;
+            } else {
+                document.getElementById('focusTitle').textContent = 'No Pending Requirements! 🎉';
+                document.getElementById('focusSubject').textContent = 'All your school tasks are complete or up to date.';
+                document.getElementById('focusTimerBadge').style.display = 'none';
+                document.getElementById('focusBtn').style.display = 'none';
+            }
+
+            // Upcoming Tasks Grid (Up to 4 pending tasks)
+            const upcomingGrid = document.getElementById('upcomingGrid');
+            const displayTasks = sortedPending.slice(0, 4);
+
+            if (displayTasks.length === 0) {
+                upcomingGrid.innerHTML = `
+                    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 32px;">
+                        <p style="font-size: 2rem; margin-bottom: 8px;">✨</p>
+                        <h3 style="color: var(--text-heading);">You're all caught up!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 16px;">Add a new Grade 12 assignment or project anytime.</p>
+                        <a href="task-form.html" class="btn btn-primary">Add New Requirement</a>
+                    </div>
+                `;
+                return;
+            }
+
+            upcomingGrid.innerHTML = displayTasks.map(t => {
+                const sub = subjects.find(s => String(s.id) === String(t.subjectId));
+                const urgency = Deadline.getUrgencyState(t.dueDate, t.dueTime, t.status);
+                const subtasks = t.subtasks || [];
+                const doneSub = subtasks.filter(s => s.completed || s.isCompleted).length;
+
+                return `
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                <span class="badge badge-normal">🏷️ ${t.type || t.taskType || 'Requirement'}</span>
+                                <span class="badge ${urgency.badgeClass}" data-due-date="${t.dueDate}">${urgency.label}</span>
+                            </div>
+                            <h3 style="margin: 0 0 6px 0; font-size: 1.1rem; color: var(--text-heading);">
+                                <a href="task-details.html?id=${t.id}" style="text-decoration: none; color: inherit;">${t.title}</a>
+                            </h3>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+                                📚 <strong>${sub ? (sub.name || sub.subjectName) : 'General'}</strong>
+                            </div>
+                            ${subtasks.length > 0 ? `
+                                <div style="font-size: 0.8rem; color: var(--text-muted); background: var(--bg-main); padding: 6px 10px; border-radius: 6px; margin-bottom: 12px;">
+                                    📋 Subtasks: <strong>${doneSub} / ${subtasks.length}</strong> done
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-align: center; border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 12px; font-size: 0.8rem;">
+                            <span style="color: var(--text-muted);">📅 Due: ${Deadline.formatDeadline(t.dueDate, t.dueTime)}</span>
+                            <a href="task-details.html?id=${t.id}" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;">Details &rarr;</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
