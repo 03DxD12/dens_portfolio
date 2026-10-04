@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dental Booking System Static Preview</title>
+    <style>
+      :root {
+        --blue: #1fa6dc;
+        --blue-dark: #1a61a3;
+        --ink: #123047;
+        --muted: #678196;
+        --bg: #f4fbff;
+        --card: #ffffff;
+        --line: #d9eef7;
+        --shadow: 0 22px 55px rgba(18, 48, 71, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(31, 166, 220, 0.18), transparent 34rem),
+          linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        min-height: 100vh;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem clamp(1rem, 5vw, 4rem);
+        background: rgba(255, 255, 255, 0.86);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(16px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        color: white;
+        background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+        box-shadow: 0 12px 24px rgba(31, 166, 220, 0.26);
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.75rem 1rem;
+        border: 0;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        color: white;
+        background: var(--blue);
+        box-shadow: 0 14px 28px rgba(31, 166, 220, 0.24);
+      }
+
+      .btn-soft {
+        color: var(--blue-dark);
+        background: #e9f8ff;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+        gap: clamp(2rem, 5vw, 4rem);
+        align-items: center;
+        padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem) 2rem;
+      }
+
+      .kicker {
+        display: inline-flex;
+        margin-bottom: 1rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        color: var(--blue-dark);
+        background: #e9f8ff;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(2.4rem, 7vw, 5.5rem);
+        line-height: 0.95;
+      }
+
+      .lead {
+        max-width: 680px;
+        margin: 1.25rem 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.18rem);
+        line-height: 1.7;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.75rem;
+      }
+
+      .preview-card {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--card);
+        box-shadow: var(--shadow);
+      }
+
+      .preview-topbar {
+        display: flex;
+        gap: 0.4rem;
+        padding: 0.85rem 1rem;
+        background: #eef8fd;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--blue);
+        opacity: 0.45;
+      }
+
+      .app-window {
+        padding: 1.1rem;
+      }
+
+      .app-hero {
+        display: grid;
+        grid-template-columns: 1fr 0.8fr;
+        gap: 1rem;
+        align-items: center;
+        padding: 1.2rem;
+        border-radius: 18px;
+        color: white;
+        background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      }
+
+      .app-hero h2 {
+        margin: 0;
+        font-size: clamp(1.3rem, 4vw, 2rem);
+        line-height: 1.05;
+      }
+
+      .tooth-card {
+        display: grid;
+        place-items: center;
+        min-height: 150px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .tooth {
+        width: 86px;
+        height: 104px;
+        border-radius: 44% 44% 38% 38%;
+        background: white;
+        box-shadow: inset -12px -16px 0 #d9f4ff;
+        clip-path: polygon(15% 0, 85% 0, 100% 32%, 82% 100%, 55% 78%, 45% 78%, 18% 100%, 0 32%);
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+        margin-top: 1rem;
+      }
+
+      .mini-card {
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: white;
+      }
+
+      .mini-card strong {
+        display: block;
+        color: var(--blue-dark);
+        font-size: 1.35rem;
+      }
+
+      .mini-card span {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .sections {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        padding: 2rem clamp(1rem, 5vw, 4rem) 4rem;
+      }
+
+      .feature {
+        padding: 1.25rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 18px 34px rgba(18, 48, 71, 0.08);
+      }
+
+      .feature h3 {
+        margin: 0 0 0.55rem;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .notice {
+        margin: 0 clamp(1rem, 5vw, 4rem) 4rem;
+        padding: 1rem 1.25rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        color: var(--muted);
+        background: #ffffff;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .sections {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .nav,
+        .nav-actions,
+        .hero-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .app-hero,
+        .mini-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="nav">
+        <div class="brand">
+          <span class="brand-mark">TS</span>
+          <span>Trinity Smiles Dental</span>
+        </div>
+        <div class="nav-actions">
+          <a class="btn btn-soft" href="https://github.com/0323DxD/dental-appointment-system" target="_blank" rel="noopener">Source Code</a>
+          <a class="btn btn-primary" href="#preview">View Preview</a>
+        </div>
+      </nav>
+
+      <main>
+        <section class="hero">
+          <div>
+            <span class="kicker">Static portfolio preview</span>
+            <h1>Dental booking system with responsive patient and admin flows.</h1>
+            <p class="lead">
+              A PHP and MySQL appointment platform for Trinity Smiles Dental, featuring online booking,
+              role-based dashboards, calendar views, service management, and polished responsive UI states.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://github.com/0323DxD/dental-appointment-system" target="_blank" rel="noopener">Open GitHub Repo</a>
+              <a class="btn btn-soft" href="index.html#projects">Back to Portfolio</a>
+            </div>
+          </div>
+
+          <div class="preview-card" id="preview" aria-label="Dental system interface preview">
+            <div class="preview-topbar">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="app-window">
+              <div class="app-hero">
+                <div>
+                  <h2>Specialized Dental Care</h2>
+                  <p>Book appointments, review schedules, and manage patient records.</p>
+                </div>
+                <div class="tooth-card">
+                  <div class="tooth" aria-hidden="true"></div>
+                </div>
+              </div>
+              <div class="mini-grid">
+                <div class="mini-card">
+                  <strong>24</strong>
+                  <span>Upcoming appointments</span>
+                </div>
+                <div class="mini-card">
+                  <strong>8</strong>
+                  <span>Pending confirmations</span>
+                </div>
+                <div class="mini-card">
+                  <strong>12</strong>
+                  <span>Available services</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="sections">
+          <article class="feature">
+            <h3>Patient Booking</h3>
+            <p>Patients can submit appointment requests, select procedures, and review reserved calendar slots.</p>
+          </article>
+          <article class="feature">
+            <h3>Role Dashboards</h3>
+            <p>Admin, dentist, and patient screens organize appointments, services, prescriptions, and settings.</p>
+          </article>
+          <article class="feature">
+            <h3>Responsive Polish</h3>
+            <p>Recent UI updates improved mobile layout, calendar resizing, chart animation, and reduced-motion support.</p>
+          </article>
+        </section>
+
+        <p class="notice">
+          Note: This page is a static GitHub Pages preview. The full app requires PHP and MySQL hosting for login,
+          database records, email notifications, and live booking actions.
+        </p>
+      </main>
+    </div>
+  </body>
+</html>
