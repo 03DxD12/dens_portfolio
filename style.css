@@ -65,6 +65,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: clip;
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
@@ -85,6 +86,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
   line-height: 1.7;
+  overflow-x: clip;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2177,6 +2179,18 @@ h1, h2, h3, h4 {
   box-shadow: 0 0 16px rgba(52, 211, 153, 0.35);
 }
 
+.its-badge--cursa {
+  background: radial-gradient(circle, #059669 0%, #047857 60%, #064e3b 100%);
+  border-color: #34d399;
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.35);
+}
+
+.its-badge--tesda {
+  background: radial-gradient(circle, #1d4ed8 0%, #1e40af 60%, #0f172a 100%);
+  border-color: #f59e0b;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+}
+
 .cert-issuer-tag {
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -3777,8 +3791,8 @@ h1, h2, h3, h4 {
   }
 }
 
-/* 4. Compact Phones & Small Viewports (<= 440px - iPhone SE, Galaxy A-series, Pixel) */
-@media (max-width: 440px) {
+/* 4. Compact Phones & Small Viewports (<= 520px - iPhone SE, 14, 15, Galaxy, Pixel) */
+@media (max-width: 520px) {
   html {
     font-size: 14.5px;
   }
@@ -3814,7 +3828,7 @@ h1, h2, h3, h4 {
 
   /* 1 Column for certifications on compact screens */
   .cert-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 0.85rem;
   }
 

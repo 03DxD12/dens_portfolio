@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (activeFilter !== "all") {
           certSearchStatus.textContent = `Showing ${matchingCards.length} credential${matchingCards.length === 1 ? "" : "s"} in selected category`;
         } else {
-          certSearchStatus.textContent = `Showing ${isExpanded ? "all 30" : "featured 8 of 30"} credentials`;
+          certSearchStatus.textContent = `Showing ${isExpanded ? `all ${matchingCards.length}` : `featured ${Math.min(INITIAL_LIMIT, matchingCards.length)} of ${matchingCards.length}`} credentials`;
         }
       }
 
@@ -825,7 +825,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const cx = width / 2;
       const cy = height / 2;
-      const baseRadius = Math.min(width, height) * 0.22;
+      const isMobile = window.innerWidth <= 680 || width <= 360;
+      const baseRadius = Math.min(width, height) * (isMobile ? 0.17 : 0.22);
 
       // Internal Sphere Glow
       const sphereGlow = ctx.createRadialGradient(cx, cy, baseRadius * 0.1, cx, cy, baseRadius * 1.05);
