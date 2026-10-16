@@ -29,6 +29,12 @@ I am a dynamic and adaptable professional specializing in building automated wor
 
 ## 📂 Highlighted Projects
 
+### 📅 [Deadline Buddy](https://github.com/03DxD12/Deadline-Buddy)
+*   **Type:** Academic Deadline & Task Management Platform
+*   **Tech Stack:** HTML5, CSS3, JavaScript, LocalStorage Persistence
+*   **Description:** An academic requirement tracker engineered for students to organize subjects, due dates, task checklists, and deadline status alerts with zero backend friction.
+*   **Live Preview:** [03dxd12.github.io/Deadline-Buddy/](https://03dxd12.github.io/Deadline-Buddy/)
+
 ### 📖 [WebHive Bookstore](https://github.com/03DxD12/webhive)
 *   **Type:** Frontend & E-Commerce Storefront
 *   **Tech Stack:** HTML, CSS, JavaScript (Vanilla Web Technologies)
@@ -46,7 +52,7 @@ I am a dynamic and adaptable professional specializing in building automated wor
 *   **Tech Stack:** Python, YOLO (You Only Look Once), OpenCV, PyTorch
 *   **Description:** A real-time weapon classification and detection system trained to identify multiple firearm categories in video feeds and static images with high accuracy.
 
-### 📝 [Grade Remarks Generator](https://github.com/0323DxD/grade-remarks)
+### 📝 [Grade Remarks Generator](https://github.com/03DxD12/grade-remarks)
 *   **Type:** Machine Learning App
 *   **Tech Stack:** PHP, MySQL, Machine Learning Models, CSS Grid
 *   **Description:** A helper application analyzing student grades, attendance records, and exam results to automatically predict and generate standardized academic remarks.
@@ -78,9 +84,3 @@ The portfolio features verified credentials earned from global technology leader
 *   **🌙 Premium Dark Palette:** Navy and slate layout themed with modern mint accent glows.
 *   **🔎 Live Iframe Hover Preview:** Hovering over any **Live Demo** button instantly opens a responsive picture-in-picture widget in the bottom-right corner showing the live website before clicking.
 *   **🏷️ Categorized Badge Filters:** Interactive category filters for quickly sorting verified credentials.
-
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
