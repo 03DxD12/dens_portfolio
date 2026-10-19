@@ -70,11 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const typingElement = document.getElementById("typing-text");
   if (typingElement) {
     const roles = [
-      "AI Process Improvement Specialist",
-      "Prompting Engineer",
-      "Full-Stack Web Developer",
-      "Workflow Automation Specialist",
-      "Python & Machine Learning Builder"
+      "Virtual Assistant",
+      "Presentation (PPT) & Paper Specialist",
+      "Web Developer (HTML / CSS / JS)",
+      "Python Builder",
+      "Creative Canva & Document Designer"
     ];
 
     let roleIndex = 0;
@@ -128,8 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
       highlight: "Inference: 18ms | 98.4% detection accuracy on weapon classes"
     },
     "audit-stack": {
-      cmd: "inspect-system --env='production' --credentials=30",
-      highlight: "Verified credentials: 30 active | Security posture: hardened"
+      cmd: "inspect-system --env='production' --credentials=38",
+      highlight: "Verified credentials: 38 active | Security posture: hardened"
     }
   };
 
