@@ -650,23 +650,23 @@ document.addEventListener("DOMContentLoaded", () => {
       // Orbit 0 (Inner-Mid) - Frontend & Design Core
       { name: "HTML5 / CSS3", orbit: 0, angle: 0 },
       { name: "JavaScript", orbit: 0, angle: (2 * Math.PI) / 5 },
-      { name: "Jamstack", orbit: 0, angle: (4 * Math.PI) / 5 },
-      { name: "Canva Design", orbit: 0, angle: (6 * Math.PI) / 5 },
-      { name: "Word & PPT", orbit: 0, angle: (8 * Math.PI) / 5 },
+      { name: "Canva Design", orbit: 0, angle: (4 * Math.PI) / 5 },
+      { name: "PowerPoint & Word", orbit: 0, angle: (6 * Math.PI) / 5 },
+      { name: "Virtual Assistance", orbit: 0, angle: (8 * Math.PI) / 5 },
 
-      // Orbit 1 (Mid-Outer) - Modern Web & AI
-      { name: "Next.js", orbit: 1, angle: 0.4 },
-      { name: "Tailwind CSS", orbit: 1, angle: 0.4 + (2 * Math.PI) / 5 },
-      { name: "TypeScript", orbit: 1, angle: 0.4 + (4 * Math.PI) / 5 },
-      { name: "AI Prompting", orbit: 1, angle: 0.4 + (6 * Math.PI) / 5 },
-      { name: "Python", orbit: 1, angle: 0.4 + (8 * Math.PI) / 5 },
+      // Orbit 1 (Mid-Outer) - Modern Web & AI Tools
+      { name: "Python", orbit: 1, angle: 0.4 },
+      { name: "ChatGPT & Claude", orbit: 1, angle: 0.4 + (2 * Math.PI) / 5 },
+      { name: "DeepSeek / Qwen", orbit: 1, angle: 0.4 + (4 * Math.PI) / 5 },
+      { name: "Perplexity AI", orbit: 1, angle: 0.4 + (6 * Math.PI) / 5 },
+      { name: "Google Gemini", orbit: 1, angle: 0.4 + (8 * Math.PI) / 5 },
 
-      // Orbit 2 (Outer) - Systems & Workflows
-      { name: "Full-Stack Web", orbit: 2, angle: 0.8 },
-      { name: "UI/UX Design", orbit: 2, angle: 0.8 + (2 * Math.PI) / 5 },
-      { name: "AI Automation", orbit: 2, angle: 0.8 + (4 * Math.PI) / 5 },
+      // Orbit 2 (Outer) - Development & Documentation
+      { name: "GitHub Copilot", orbit: 2, angle: 0.8 },
+      { name: "Blackbox AI", orbit: 2, angle: 0.8 + (2 * Math.PI) / 5 },
+      { name: "Paper & Reports", orbit: 2, angle: 0.8 + (4 * Math.PI) / 5 },
       { name: "Git & GitHub", orbit: 2, angle: 0.8 + (6 * Math.PI) / 5 },
-      { name: "Electron", orbit: 2, angle: 0.8 + (8 * Math.PI) / 5 }
+      { name: "MySQL / SQL", orbit: 2, angle: 0.8 + (8 * Math.PI) / 5 }
     ];
 
     tagsLayer.innerHTML = "";
