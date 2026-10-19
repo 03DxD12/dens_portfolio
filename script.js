@@ -199,7 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!target) return;
 
       event.preventDefault();
-      const navOffset = navbar ? navbar.offsetHeight : 0;
+      setMenuState(false);
+
+      const navOffset = navbar ? navbar.offsetHeight : 70;
       const top = target.getBoundingClientRect().top + window.scrollY - navOffset + 2;
 
       window.scrollTo({
@@ -242,9 +244,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  let scrollTicking = false;
+  const onScroll = () => {
+    if (!scrollTicking) {
+      window.requestAnimationFrame(() => {
+        updateScrollState();
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
+  };
+
   updateScrollState();
-  window.addEventListener("scroll", updateScrollState, { passive: true });
-  window.addEventListener("resize", updateScrollState);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => {
+    window.requestAnimationFrame(updateScrollState);
+  }, { passive: true });
 
   // =========================================================================
   // 5. PROJECT CATEGORY FILTERING
