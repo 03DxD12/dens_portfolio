@@ -35,6 +35,12 @@ I am a dynamic and adaptable professional specializing in building automated wor
 *   **Description:** An academic requirement tracker engineered for students to organize subjects, due dates, task checklists, and deadline status alerts with zero backend friction.
 *   **Live Preview:** [03dxd12.github.io/Deadline-Buddy/](https://03dxd12.github.io/Deadline-Buddy/)
 
+### 🚀 [AstroType: Typing Defender (Space Shooter)](https://github.com/03DxD12/Space-Shooter)
+*   **Type:** Arcade Space Typing Defense Game
+*   **Tech Stack:** HTML5 Canvas, CSS3, Vanilla JavaScript, LocalStorage
+*   **Description:** An action-packed browser space typing defense game where players type incoming asteroid words to fire plasma blasts, unlock 5 distinct cosmic worlds, collect combat power-ups, and record high scores.
+*   **Live Preview:** [03dxd12.github.io/Space-Shooter/](https://03dxd12.github.io/Space-Shooter/)
+
 ### 📖 [WebHive Bookstore](https://github.com/03DxD12/webhive)
 *   **Type:** Frontend & E-Commerce Storefront
 *   **Tech Stack:** HTML, CSS, JavaScript (Vanilla Web Technologies)
@@ -52,10 +58,11 @@ I am a dynamic and adaptable professional specializing in building automated wor
 *   **Tech Stack:** Python, YOLO (You Only Look Once), OpenCV, PyTorch
 *   **Description:** A real-time weapon classification and detection system trained to identify multiple firearm categories in video feeds and static images with high accuracy.
 
-### 📝 [Grade Remarks Generator](https://github.com/03DxD12/grade-remarks)
-*   **Type:** Machine Learning App
-*   **Tech Stack:** PHP, MySQL, Machine Learning Models, CSS Grid
-*   **Description:** A helper application analyzing student grades, attendance records, and exam results to automatically predict and generate standardized academic remarks.
+### 📊 [Student Performance Prediction System](https://github.com/03DxD12/Student-Performance-Prediction-System)
+*   **Type:** Machine Learning & Predictive Analytics Web Application
+*   **Tech Stack:** Python, Flask, Scikit-Learn, MySQL, HTML5/CSS3
+*   **Description:** A full-stack predictive analytics platform analyzing student attendance, study habits, and exam performance to predict academic outcomes in real-time, store records in MySQL, and display analytics dashboards.
+*   **Live Preview:** [student-performance-prediction-system-4pkl.onrender.com](https://student-performance-prediction-system-4pkl.onrender.com/)
 
 ---
 

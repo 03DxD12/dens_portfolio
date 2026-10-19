@@ -1830,10 +1830,11 @@ h1, h2, h3, h4 {
 
 /* Distinctive Gradients per Project Category */
 .header-deadline { background: linear-gradient(135deg, #0e3048, #0b4b6f); }
+.header-spaceshooter { background: linear-gradient(135deg, #090e24 0%, #1e1b4b 50%, #431407 100%); }
 .header-vetsync  { background: linear-gradient(135deg, #10343a, #12635e); }
 .header-mindguard{ background: linear-gradient(135deg, #1e1b4b, #3730a3); }
 .header-gun      { background: linear-gradient(135deg, #311313, #6b2121); }
-.header-grade    { background: linear-gradient(135deg, #1e293b, #334155); }
+.header-grade    { background: linear-gradient(135deg, #0f2b38, #155e75); }
 .header-dental   { background: linear-gradient(135deg, #0c334f, #0284c7); }
 .header-webhive  { background: linear-gradient(135deg, #2e1065, #6d28d9); }
 .header-bus      { background: linear-gradient(135deg, #142a3a, #0369a1); }
