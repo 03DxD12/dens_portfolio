@@ -1831,6 +1831,7 @@ h1, h2, h3, h4 {
 /* Distinctive Gradients per Project Category */
 .header-deadline { background: linear-gradient(135deg, #0e3048, #0b4b6f); }
 .header-spaceshooter { background: linear-gradient(135deg, #090e24 0%, #1e1b4b 50%, #431407 100%); }
+.header-mahochesu { background: linear-gradient(135deg, #18092e 0%, #3b0764 50%, #1e1b4b 100%); }
 .header-vetsync  { background: linear-gradient(135deg, #10343a, #12635e); }
 .header-mindguard{ background: linear-gradient(135deg, #1e1b4b, #3730a3); }
 .header-gun      { background: linear-gradient(135deg, #311313, #6b2121); }
@@ -4159,3 +4160,221 @@ h1, h2, h3, h4 {
     height: 90vh;
   }
 }
+
+/* ==========================================================================
+   Career Objective & OJT Target Callout
+   ========================================================================== */
+.career-objective-card {
+  position: relative;
+  background: rgba(14, 25, 45, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 245, 196, 0.25);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 2.2rem;
+  box-shadow: 0 12px 32px -10px rgba(0, 245, 196, 0.1);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.career-objective-card:hover {
+  border-color: rgba(0, 245, 196, 0.45);
+  box-shadow: 0 16px 36px -8px rgba(0, 245, 196, 0.2);
+  transform: translateY(-2px);
+}
+
+.objective-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.objective-tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.objective-tag::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.objective-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  border-radius: var(--radius-full);
+  padding: 0.25rem 0.75rem;
+  font-weight: 600;
+}
+
+.objective-text {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: #f1f5f9;
+  font-style: italic;
+  margin-bottom: 1.1rem;
+}
+
+.objective-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(148, 194, 255, 0.1);
+  padding-top: 0.85rem;
+}
+
+.objective-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* ==========================================================================
+   Administrative & Technical Support Skills (Resume Matrix)
+   ========================================================================== */
+.resume-skills-block {
+  margin-top: 2.8rem;
+  padding-top: 2.2rem;
+  border-top: 1px solid rgba(148, 194, 255, 0.1);
+}
+
+.resume-skills-header {
+  margin-bottom: 1.4rem;
+}
+
+.resume-skills-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.resume-skills-header p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+.resume-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+
+.resume-skill-card {
+  background: rgba(10, 24, 48, 0.65);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 1.15rem 1.3rem;
+  backdrop-filter: blur(12px);
+  transition: all var(--transition);
+}
+
+.resume-skill-card:hover {
+  border-color: rgba(0, 245, 196, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -8px rgba(0, 245, 196, 0.12);
+}
+
+.resume-skill-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.45rem;
+}
+
+.resume-skill-card-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 245, 196, 0.1);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.resume-skill-card strong {
+  font-size: 0.95rem;
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+.resume-skill-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Personal Attributes Wrap */
+.personal-attributes-wrap {
+  margin-top: 2rem;
+  background: rgba(10, 24, 48, 0.5);
+  border: 1px dashed rgba(129, 140, 248, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.6rem;
+}
+
+.personal-attributes-title {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.attributes-pills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.attr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  background: rgba(129, 140, 248, 0.08);
+  border: 1px solid rgba(129, 140, 248, 0.22);
+  color: #e0e7ff;
+  border-radius: var(--radius-full);
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.attr-badge:hover {
+  background: rgba(129, 140, 248, 0.2);
+  border-color: var(--accent-purple);
+  transform: translateY(-1px);
+}
+
