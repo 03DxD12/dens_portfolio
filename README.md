@@ -28,7 +28,19 @@ Welcome to the official repository for my personal portfolio. This website showc
 
 ---
 
-## 📂 Highlighted Projects (13+ Shipped)
+## 📂 Highlighted Projects (15+ Shipped)
+
+### 💎 [ChAcrie Charms](https://github.com/03DxD12/charmstore)
+*   **Type:** Boutique Jewelry E-Commerce & Interactive Bracelet Builder
+*   **Tech Stack:** HTML5, CSS3 Glassmorphism, Vanilla JavaScript, LocalStorage
+*   **Description:** A bespoke boutique jewelry e-commerce platform and interactive custom bracelet builder. Customers can browse curated charm collections, filter by style, mix and match charms on a live virtual bracelet strand, calculate order totals, and checkout through an elegant glassmorphic shopping bag.
+*   **Live Preview:** [03dxd12.github.io/charmstore/](https://03dxd12.github.io/charmstore/)
+
+### 🧮 [OmniCalc: Scientific & Cash Denomination Suite](https://github.com/03DxD12/Calculator)
+*   **Type:** Precision Multi-Mode Calculator & Cash Denomination Counter
+*   **Tech Stack:** HTML5, CSS3 Grid, Vanilla JavaScript, Math Engine
+*   **Description:** An all-in-one precision calculator suite uniting standard four-function arithmetic, trigonometric and algebraic scientific functions, audit calculation history tape, and a Philippine Peso cash denomination counter for automated retail tallying.
+*   **Live Preview:** [03dxd12.github.io/Calculator/](https://03dxd12.github.io/Calculator/)
 
 ### ♟️ [Mahō no Chesu: Elemental Chess](https://github.com/03DxD12/Mah-no-Chesu)
 *   **Type:** Fantasy-Themed Elemental Chess Game
@@ -97,9 +109,13 @@ The portfolio features verified credentials earned from global technology leader
 
 ---
 
-## 🖥️ Key Features of the Portfolio
+## 🖥️ Key Features & Mobile UX
 
-*   **⚡ Scroll-Smooth Navigation:** Clean single-page navigation with active offset calculation.
-*   **🌙 Premium Dark Palette:** Navy and slate layout themed with modern mint accent glows.
-*   **🔎 Live Iframe Hover Preview:** Hovering over any **Live Demo** button instantly opens a responsive picture-in-picture widget in the bottom-right corner showing the live website before clicking.
-*   **🏷️ Categorized Badge Filters:** Interactive category filters for quickly sorting verified credentials.
+*   **⚡ 60-120fps Smooth Navigation:** Hardware-accelerated transitions (`will-change: transform`, `backface-visibility: hidden`) with zero jank across modern refresh displays.
+*   **📱 Native iOS & Android Optimizations:**
+    *   **Sticky Hover Prevention:** Scoped desktop hover states under `@media (hover: hover) and (pointer: fine)` so mobile cards never stick on touch.
+    *   **Slide-Up Bottom Sheet:** Live preview opens as a native slide-up bottom sheet with grab-bar handle, dynamic viewport height (`dvh`), and outside touch dismissal.
+    *   **Horizontal Filter Swiping:** Category pills snap smoothly along the x-axis with 44px accessible touch targets adhering to Apple Human Interface Guidelines and Google Material Design.
+*   **🌙 Premium Dark Palette:** Luxury navy base (`#040914`) themed with mint neon accents (`#00f5c4`), sky blue (`#38bdf8`), and purple (`#818cf8`).
+*   **🔎 Live Interactive Preview:** Tap any project's **Live Demo** button to immediately preview the live app right inside the portfolio without losing context.
+*   **🏷️ Categorized Badge Filters:** Instant client-side filtering for sorting 15+ projects and verified credentials without full-page reloads.

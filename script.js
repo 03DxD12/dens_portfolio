@@ -493,6 +493,13 @@ document.addEventListener("DOMContentLoaded", () => {
         closePreview();
       }
     });
+
+    document.addEventListener("pointerdown", (e) => {
+      if (!previewModal.classList.contains("active")) return;
+      if (!previewModal.contains(e.target) && !e.target.closest("[data-hover-preview]")) {
+        closePreview();
+      }
+    });
   }
 
   // =========================================================================
