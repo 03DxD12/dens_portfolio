@@ -30,6 +30,12 @@ Welcome to the official repository for my personal portfolio. This website showc
 
 ## 📂 Highlighted Projects (15+ Shipped)
 
+### [SIGNHEAR](https://github.com/03DxD12/SIGNHEAR-An-Accessible-and-Inclusive-Science-E-Learning-System/tree/feature/denmhar)
+*   **Type:** Accessible Science E-Learning Capstone System
+*   **Tech Stack:** Vue 3, TypeScript, FastAPI, PostgreSQL, OpenCV, MediaPipe
+*   **Description:** An accessible and inclusive Science e-learning system for Grades 4 to 6 learners with hearing impairment. It combines sign-language-supported materials, assessments, learning activities, camera-based sign recognition, learner progress monitoring, and role-protected administration.
+*   **Repository:** Private; access is limited to authorized collaborators.
+
 ### 💎 [ChAcrie Charms](https://github.com/03DxD12/charmstore)
 *   **Type:** Boutique Jewelry E-Commerce & Interactive Bracelet Builder
 *   **Tech Stack:** HTML5, CSS3 Glassmorphism, Vanilla JavaScript, LocalStorage

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive portfolio preview of the SIGNHEAR accessible Science e-learning system.">
+  <title>SIGNHEAR Portfolio Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      color-scheme: light;
+      --navy: #102a43;
+      --ink: #172033;
+      --muted: #62738a;
+      --mint: #23c6a8;
+      --cyan: #38bdf8;
+      --surface: #ffffff;
+      --line: #dbe4f0;
+    }
+    body { margin: 0; font-family: Arial, sans-serif; color: var(--ink); background: #f4f7fb; }
+    header { padding: 22px clamp(16px, 5vw, 64px); background: var(--navy); color: #fff; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    header strong { font-size: 1.35rem; letter-spacing: .04em; }
+    header span { color: #cfe8f7; }
+    main { padding: 32px clamp(16px, 5vw, 64px); display: grid; gap: 24px; }
+    .hero, .panel, .module, .recognition-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 16px 36px rgba(16, 42, 67, .08); }
+    .hero { padding: clamp(22px, 4vw, 42px); display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: center; }
+    h1 { margin: 0; font-size: clamp(2.2rem, 6vw, 4.3rem); line-height: 1.05; }
+    h2 { margin: 0 0 12px; }
+    p { color: var(--muted); line-height: 1.7; }
+    .button, button { border: 0; border-radius: 999px; padding: 12px 18px; background: var(--mint); color: #07211d; font-weight: 800; cursor: pointer; }
+    .button { display: inline-block; text-decoration: none; }
+    .button:focus-visible, button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+    .metric-grid, .module-grid, .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .metric { padding: 18px; border-radius: 14px; background: #e9fbf7; }
+    .metric strong { display: block; font-size: 1.7rem; color: #0f766e; }
+    .panel { padding: 22px; }
+    .module { padding: 18px; display: grid; gap: 12px; box-shadow: none; }
+    .module p { margin: 0; }
+    .progress { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--mint), var(--cyan)); }
+    .recognition-card { padding: 20px; box-shadow: none; }
+    .recognition-card strong { display: block; margin-bottom: 8px; }
+    .status { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; color: #0f766e; font-weight: 700; }
+    .status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--mint); }
+    .quiz { display: grid; gap: 12px; }
+    .choice { width: 100%; text-align: left; background: #edf2f7; color: var(--ink); }
+    .choice.correct { background: #bbf7d0; }
+    .choice.wrong { background: #fecaca; }
+    .demo-note { margin: 0; font-size: .92rem; }
+    @media (max-width: 760px) {
+      .hero, .metric-grid, .module-grid, .feature-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>SIGNHEAR</strong>
+    <span>Accessible Science learning with sign-language support</span>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Science learning designed to be seen.</h1>
+        <p>SIGNHEAR supports Grades 4 to 6 learners with hearing impairment through sign-supported lessons, activities, assessments, and progress monitoring.</p>
+        <a class="button" href="#modules">Explore modules</a>
+      </div>
+      <div class="metric-grid" aria-label="Learning summary">
+        <div class="metric"><strong id="completed">0</strong><span>Modules completed</span></div>
+        <div class="metric"><strong>3</strong><span>Grade levels</span></div>
+        <div class="metric"><strong id="score">--</strong><span>Practice score</span></div>
+      </div>
+    </section>
+
+    <section id="modules" class="panel" aria-labelledby="modules-title">
+      <h2 id="modules-title">Science modules</h2>
+      <p>Try the portfolio interaction by marking a module complete. Progress is stored only in this browser.</p>
+      <div class="module-grid" id="moduleGrid"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="features-title">
+      <h2 id="features-title">Inclusive learning tools</h2>
+      <div class="feature-grid">
+        <article class="recognition-card">
+          <strong>Sign alphabet recognition</strong>
+          <p>Camera-based practice helps learners receive feedback while forming supported hand signs.</p>
+          <span class="status">Available in the full system</span>
+        </article>
+        <article class="recognition-card">
+          <strong>Sign-supported materials</strong>
+          <p>Teachers can provide recorded visual support alongside Science lessons and activities.</p>
+          <span class="status">Teacher managed</span>
+        </article>
+        <article class="recognition-card">
+          <strong>Progress monitoring</strong>
+          <p>Authorized teachers review completion, attempts, scores, and learning interventions.</p>
+          <span class="status">Role protected</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="assessment-title">
+      <h2 id="assessment-title">Quick assessment</h2>
+      <p>Which SIGNHEAR feature helps a teacher identify learners who may need additional support?</p>
+      <div class="quiz">
+        <button class="choice" type="button" data-correct="false">Changing the page color</button>
+        <button class="choice" type="button" data-correct="true">Learner progress monitoring</button>
+        <button class="choice" type="button" data-correct="false">Hiding assessment results</button>
+      </div>
+      <p class="demo-note" id="quizFeedback" aria-live="polite"></p>
+    </section>
+  </main>
+  <script>
+    const modules = [
+      ["Matter and Its Properties", 80],
+      ["Force, Motion, and Energy", 55],
+      ["Living Things and Their Environment", 35],
+    ];
+    const storageKey = "signhear-demo-completed";
+    const moduleGrid = document.getElementById("moduleGrid");
+    const completedCount = document.getElementById("completed");
+
+    function readCompletedModules() {
+      try {
+        const value = JSON.parse(localStorage.getItem(storageKey) || "[]");
+        return Array.isArray(value) ? value.filter(Number.isInteger) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function renderModules() {
+      const completedModules = readCompletedModules();
+      completedCount.textContent = String(completedModules.length);
+      moduleGrid.replaceChildren();
+
+      modules.forEach(([title, progress], index) => {
+        const isComplete = completedModules.includes(index);
+        const card = document.createElement("article");
+        card.className = "module";
+
+        const heading = document.createElement("strong");
+        heading.textContent = title;
+        const status = document.createElement("p");
+        status.textContent = isComplete ? "Completed" : "In progress";
+        const progressTrack = document.createElement("div");
+        progressTrack.className = "progress";
+        progressTrack.setAttribute("role", "progressbar");
+        progressTrack.setAttribute("aria-label", `${title} progress`);
+        progressTrack.setAttribute("aria-valuemin", "0");
+        progressTrack.setAttribute("aria-valuemax", "100");
+        progressTrack.setAttribute("aria-valuenow", String(isComplete ? 100 : progress));
+        const progressBar = document.createElement("span");
+        progressBar.style.width = `${isComplete ? 100 : progress}%`;
+        progressTrack.appendChild(progressBar);
+
+        const action = document.createElement("button");
+        action.type = "button";
+        action.textContent = isComplete ? "Completed" : "Mark complete";
+        action.disabled = isComplete;
+        action.addEventListener("click", () => {
+          const next = Array.from(new Set([...readCompletedModules(), index]));
+          localStorage.setItem(storageKey, JSON.stringify(next));
+          renderModules();
+        });
+
+        card.append(heading, status, progressTrack, action);
+        moduleGrid.appendChild(card);
+      });
+    }
+
+    document.querySelectorAll(".choice").forEach((button) => {
+      button.addEventListener("click", () => {
+        const isCorrect = button.dataset.correct === "true";
+        document.querySelectorAll(".choice").forEach((item) => item.classList.remove("correct", "wrong"));
+        button.classList.add(isCorrect ? "correct" : "wrong");
+        document.getElementById("score").textContent = isCorrect ? "100%" : "0%";
+        document.getElementById("quizFeedback").textContent = isCorrect
+          ? "Correct. Progress monitoring helps teachers identify learning needs."
+          : "Try again. Look for the feature that reports learner performance.";
+      });
+    });
+
+    renderModules();
+  </script>
+</body>
+</html>
