@@ -3,6 +3,18 @@
 
 This document establishes the mandatory operational workflow, quality guardrails, and architectural rules for all AI code generation, refactoring, and code review in this workspace.
 
+## Repository-Wide Enforcement
+
+These directives apply to every future task in this repository and to all files, subdirectories, and supported IDE workflows. Agents must:
+
+- Use GSD decomposition for complex work and complete Ralph Loop verification before delivery.
+- Produce complete, production-ready changes without filler, placeholder comments, speculative wrappers, or unnecessary dependencies.
+- Make precise, minimal edits that preserve unrelated work and existing contracts.
+- Perform a final SkillSpector and CodeRabbit review covering logic, security, typing, performance, accessibility, and responsive behavior as applicable.
+- Prefer direct terminal commands for inspection, dependency management, testing, and builds in VS Code, Cursor, Windsurf, Antigravity, and equivalent IDE terminals.
+- Keep version-control changes modular and reversible, and use descriptive commit or pull-request text when those artifacts are requested.
+- Use connected MCP services such as GitHub, Figma, and Supabase only when relevant, available, and authorized; protect credentials and validate external results before relying on them.
+
 ---
 
 ## 🛠️ The Core 9 Toolset & Execution Standards
