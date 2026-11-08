@@ -10,7 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const navbar = document.querySelector(".navbar");
   const navToggle = document.querySelector(".nav-toggle");
   const navLinks = document.querySelector(".nav-links");
+  const navBackdrop = document.querySelector(".nav-backdrop");
   const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+  const mobileNavQuery = window.matchMedia("(max-width: 860px)");
   const toast = document.getElementById("toast");
   const toastMessage = document.getElementById("toast-message");
 
@@ -155,10 +157,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   const setMenuState = (isOpen) => {
     if (!navToggle || !navLinks) return;
-    navToggle.classList.toggle("active", isOpen);
-    navLinks.classList.toggle("active", isOpen);
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-    body.classList.toggle("menu-open", isOpen);
+    const isMobile = mobileNavQuery.matches;
+    const shouldOpen = isMobile && isOpen;
+    navToggle.classList.toggle("active", shouldOpen);
+    navLinks.classList.toggle("active", shouldOpen);
+    navToggle.setAttribute("aria-expanded", String(shouldOpen));
+    body.classList.toggle("menu-open", shouldOpen);
+    navLinks.inert = isMobile && !shouldOpen;
   };
 
   if (navToggle && navLinks) {
@@ -166,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       const isOpen = !navLinks.classList.contains("active");
       setMenuState(isOpen);
+      if (isOpen) navAnchors[0]?.focus();
     });
 
     navAnchors.forEach((link) => {
@@ -173,7 +179,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") setMenuState(false);
+      if (event.key === "Escape" && navLinks.classList.contains("active")) {
+        setMenuState(false);
+        navToggle.focus();
+      }
+
+      if (event.key === "Tab" && navLinks.classList.contains("active")) {
+        const firstLink = navAnchors[0];
+        const lastLink = navAnchors[navAnchors.length - 1];
+        if (event.shiftKey && document.activeElement === firstLink) {
+          event.preventDefault();
+          navToggle.focus();
+        } else if (event.shiftKey && document.activeElement === navToggle) {
+          event.preventDefault();
+          lastLink?.focus();
+        } else if (!event.shiftKey && document.activeElement === lastLink) {
+          event.preventDefault();
+          navToggle.focus();
+        }
+      }
+    });
+
+    navBackdrop?.addEventListener("click", () => {
+      setMenuState(false);
+      navToggle.focus();
     });
 
     document.addEventListener("click", (event) => {
@@ -187,6 +216,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       setMenuState(false);
     });
+
+    setMenuState(false);
+    mobileNavQuery.addEventListener("change", () => setMenuState(false));
   }
 
   // Smooth Scroll with dynamic navbar offset
