@@ -1,6 +1,6 @@
 ---
 description: Mandatory code quality guidelines, execution loops, and structural standards for this workspace.
-globs: ["*.*", "**/*.*"]
+globs: "*"
 always_on: true
 ---
 

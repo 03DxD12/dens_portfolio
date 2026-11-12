@@ -2271,6 +2271,9 @@ h1, h2, h3, h4 {
 .cert-toggle-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-top: 3rem;
 }
 

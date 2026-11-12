@@ -130,8 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
       highlight: "Inference: 18ms | 98.4% detection accuracy on weapon classes"
     },
     "audit-stack": {
-      cmd: "inspect-system --env='production' --credentials=38",
-      highlight: "Verified credentials: 38 active | Security posture: hardened"
+      cmd: "inspect-system --env='production' --credentials=39",
+      highlight: "Verified credentials: 39 active | Security posture: hardened"
     }
   };
 

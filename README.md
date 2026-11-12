@@ -111,6 +111,7 @@ The portfolio features verified credentials earned from global technology leader
     *   Cloud Computing Fundamentals
     *   Web Development & UX Design Fundamentals
 *   **Certiport / ITS:**
+    *   Information Technology Specialist - Software Development (100% Perfect Score: 1000/1000)
     *   Information Technology Specialist - Cloud Computing
 
 ---
